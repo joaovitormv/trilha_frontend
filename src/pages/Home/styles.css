@@ -1,0 +1,107 @@
+/* Container central (empurra o footer pro fundo e centraliza o cartão) */
+.home-main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* O Cartão Escuro Arredondado */
+.hero-card {
+  width: 100%;
+  max-width: 800px;
+  height: 450px;
+  border-radius: 24px;
+  
+  /* --- COLOQUE O NOME DA SUA IMAGEM AQUI --- */
+  background-image: url('/background.png'); 
+  background-size: cover;
+  background-position: center;
+  background-color: #111111; /* Cor de fundo caso a imagem demore a carregar */
+  
+  position: relative;
+  overflow: hidden; /* Mantém a imagem dentro da borda arredondada */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Máscara escura para garantir que o texto branco seja legível */
+.hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.4); /* Escurece a imagem em 40% */
+  z-index: 1;
+}
+
+/* Área interna que segura os textos */
+.hero-content {
+  position: relative;
+  z-index: 2; /* Garante que o texto fique por cima da imagem e da máscara escura */
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  padding: 50px;
+  box-sizing: border-box;
+}
+
+/* Coluna Esquerda */
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Joga o título pro topo e o login pro fundo */
+  height: 100%;
+}
+
+.hero-left h1 {
+  font-size: 1.6rem;
+  line-height: 1.4;
+  margin: 0;
+  color: #ffffff;
+}
+
+/* Coluna Direita */
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Mantém a caixa de cadastro colada no topo */
+  height: 100%;
+}
+
+/* Caixas de Texto + Botão */
+.action-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinha os botões à esquerda por padrão */
+  gap: 12px;
+}
+
+.action-box.align-center {
+  align-items: center; /* Centraliza o botão "Cadastrar" embaixo do texto "É novo por aqui?" */
+}
+
+.action-box p {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0;
+  color: #ffffff;
+}
+
+/* Responsividade (Para não quebrar no celular) */
+@media (max-width: 768px) {
+  .hero-card {
+    height: auto;
+    min-height: 500px;
+  }
+  .hero-content {
+    flex-direction: column;
+    padding: 30px;
+    gap: 40px;
+  }
+  .hero-right {
+    justify-content: flex-end; /* Joga o cadastro pro fundo da tela no celular */
+  }
+  .action-box.align-center {
+    align-items: flex-start; /* Volta a alinhar à esquerda no celular */
+  }
+}

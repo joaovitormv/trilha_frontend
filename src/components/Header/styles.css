@@ -1,0 +1,39 @@
+.app-header, .app-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  color: white;
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-icon {
+  width: 40px; 
+  height: auto;
+}
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 6px; 
+  color: #e0e0e0; 
+}
+.app-footer .social-icon img {
+  width: 30px; 
+}

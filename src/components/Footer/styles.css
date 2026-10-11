@@ -1,0 +1,74 @@
+.app-footer {
+  background-color: #6a0dad;
+  padding: 15px 40px; /* Reduzido a altura do footer (de 30px para 15px) */
+  width: 100%;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between; /* Joga os links para a esquerda e o social para a direita */
+  align-items: center;
+  width: 100%; /* Obrigatório para o space-between funcionar de ponta a ponta */
+  margin: 0 auto;
+}
+
+/* Lado Esquerdo: Links */
+.footer-links {
+  display: flex;
+  gap: 24px;
+}
+
+.footer-links a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: opacity 0.2s;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Lado Direito: Redes Sociais e Texto */
+.footer-social-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Mantém tudo alinhado à direita */
+  gap: 6px; /* Reduzido o espaço entre os ícones e o texto para afinar o footer */
+}
+
+.social-icons {
+  display: flex;
+  gap: 16px;
+}
+
+.social-icons img {
+  width: 20px; /* Ícones um pouco menores */
+  height: 20px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.social-icons img:hover {
+  opacity: 0.7;
+}
+
+.copyright-text {
+  font-size: 0.75rem;
+  color: #e0e0e0;
+  margin: 0;
+}
+
+/* Responsividade para celular */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .footer-social-section {
+    align-items: center;
+  }
+}
