@@ -1,46 +1,50 @@
+// src/pages/Catalog/index.tsx
 import React, { useEffect, useState } from 'react';
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
-import { movieService } from '../../api/services/movieService'; // Nosso serviço de API
-import type { Movie } from '../../api/types/movie.types'; // Nossa interface
+import { movieService } from '../../api/services/movieService';
+import type { Movie } from '../../api/types/movie.types';
+import { Pagination } from '../../components/Pagination'; // Importação do nosso novo componente
 
 import './styles.css';
 
 export const Catalog = () => {
-  // Estados da tela
+  // Estados de dados e carregamento
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // O useEffect com array vazio [] roda apenas UMA vez quando a tela abre
+  // Estados de Paginação
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  
+
+  const ITEMS_PER_PAGE = 10; 
+
+  // Cálculos para fatiar a lista de filmes exibida na tela atual
+  const totalPages = Math.ceil(movies.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const currentMovies = movies.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
   useEffect(() => {
     const fetchMovies = async () => {
       try {
         setIsLoading(true);
         const resposta = await movieService.getAll();
         
-        console.log('Dados crus da API:', resposta);
-
-        // Verifica os formatos mais comuns de resposta de backend
+        // Verifica o formato dos dados que chegam da API
         if (Array.isArray(resposta)) {
-          // Formato direto: [ {}, {} ]
           setMovies(resposta);
         } else if (resposta && Array.isArray((resposta as any).rows)) {
-          // Padrão Sequelize (findAndCountAll): { count: X, rows: [ {}, {} ] }
           setMovies((resposta as any).rows);
         } else if (resposta && Array.isArray((resposta as any).data)) {
-          // Padrão comum de APIs: { data: [ {}, {} ] }
           setMovies((resposta as any).data);
         } else {
-          console.error(' O backend enviou um formato desconhecido:', resposta);
-          setMovies([]); // Proteção para não quebrar a tela
+          console.error('Formato desconhecido:', resposta);
+          setMovies([]); 
           setError('Formato de dados inválido recebido do servidor.');
         }
       } catch (err) {
-        console.error(' Erro ao buscar filmes:', err);
+        console.error('Erro ao buscar filmes:', err);
         setError('Não foi possível carregar o catálogo de filmes. Verifique se o backend está rodando.');
       } finally {
-        // Independente de dar sucesso ou erro, para de mostrar "Carregando..."
         setIsLoading(false);
       }
     };
@@ -49,30 +53,26 @@ export const Catalog = () => {
   }, []);
 
   return (
-    <div className="catalog-page-container">
-      <Header />
+    // O <main> é injetado diretamente no Outlet do BaseLayout
+    <main className="catalog-main-content">
+      <h1 className="catalog-title">Catálogo de Filmes</h1>
+
+      {isLoading && <p className="loading-text">Carregando filmes...</p>}
       
-      <main className="catalog-main-content">
-        <h1 className="catalog-title">Catálogo de Filmes</h1>
+      {error && <p className="error-text">{error}</p>}
 
-        {/* 1. Estado de Carregamento */}
-        {isLoading && <p className="loading-text">Carregando filmes...</p>}
+      {!isLoading && !error && Array.isArray(movies) && movies.length === 0 && (
+        <p className="empty-text">Nenhum filme encontrado. Adicione alguns no banco de dados!</p>
+      )}
 
-        {/* 2. Estado de Erro */}
-        {error && <p className="error-text">{error}</p>}
-
-        {/* 3. Estado Vazio (API funcionou, mas não tem filmes no banco) */}
-        {!isLoading && !error && Array.isArray(movies) && movies.length === 0 && (
-          <p className="empty-text">Nenhum filme encontrado. Adicione alguns no banco de dados!</p>
-        )}
-
-        {/* 4. Sucesso: Renderiza a lista de filmes (READ) */}
-        {!isLoading && !error && movies.length > 0 && Array.isArray(movies) && (
+      {/* Renderiza o catálogo e a paginação em caso de sucesso */}
+      {!isLoading && !error && Array.isArray(movies) && movies.length > 0 && (
+        <>
           <div className="movies-grid">
-            {movies.map((movie) => (
+            {/* O map agora roda apenas nos filmes fatiados da página atual (currentMovies) */}
+            {currentMovies.map((movie) => (
               <div key={movie.id} className="movie-card-simple">
                 
-                {/* Se o backend mandar uma URL de poster, mostra a imagem. Se não, mostra uma caixa cinza */}
                 {movie.posterUrl ? (
                   <img src={movie.posterUrl} alt={movie.title} className="movie-poster" />
                 ) : (
@@ -85,10 +85,15 @@ export const Catalog = () => {
               </div>
             ))}
           </div>
-        )}
-      </main>
 
-      <Footer />
-    </div>
+          {/* O componente de paginação assume a renderização dos botões */}
+          <Pagination 
+            currentPage={currentPage} 
+            totalPages={totalPages} 
+            onPageChange={setCurrentPage} 
+          />
+        </>
+      )}
+    </main>
   );
 };

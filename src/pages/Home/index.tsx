@@ -1,13 +1,10 @@
 import React from 'react';
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
 import { Button } from '../../components/Button';
 import './styles.css';
 
 export const Home = () => {
   return (
     <div className="home-page-container">
-      <Header />
       
       <main className="home-main-content">
         <div className="hero-card">
@@ -38,8 +35,6 @@ export const Home = () => {
 
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 };
