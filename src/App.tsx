@@ -1,12 +1,12 @@
+// src/App.tsx
 import React from 'react';
-import { Home } from './pages/Home';
-import {Catalog} from './pages/Filmes';
-
+import { RouterProvider } from 'react-router-dom';
+import { router } from './routes'; // Importamos a configuração que acabamos de criar
 
 function App() {
-  return (
-    <Catalog />
-  );
+  // O RouterProvider é o "motor" que escuta a URL do navegador
+  // e exibe o elemento correto baseado no arquivo routes.tsx
+  return <RouterProvider router={router} />;
 }
 
 export default App;
