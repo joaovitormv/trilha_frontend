@@ -4,6 +4,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import { BaseLayout } from './components/Layout';
 import { Home } from './pages/Home';
 import { Catalog } from './pages/Filmes';
+import {Login} from './pages/Login';
 
 export const router = createBrowserRouter([
   {
@@ -20,7 +21,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/login',
-        element: <div style={{ padding: '40px' }}>Tela de Login (Em breve)</div>,
+        element: <Login/>,
       },
       {
         path: '/cadastro',

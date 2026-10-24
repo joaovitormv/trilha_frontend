@@ -1,8 +1,10 @@
 import React from 'react';
 import { Button } from '../../components/Button';
 import './styles.css';
+import { useNavigate } from 'react-router-dom';
 
 export const Home = () => {
+  const navigate = useNavigate();
   return (
     <div className="home-page-container">
       
@@ -18,7 +20,7 @@ export const Home = () => {
               
               <div className="action-box">
                 <p>Já possui uma conta?</p>
-                <Button>Login</Button>
+                <Button onClick={() => navigate('/login')}>Login</Button>
               </div>
             </div>
 
@@ -27,7 +29,7 @@ export const Home = () => {
               {/* Adicionamos uma classe extra para centralizar o botão de cadastrar com o texto */}
               <div className="action-box align-center">
                 <p>É novo por aqui?</p>
-                <Button>Cadastrar</Button>
+                <Button onClick={() => navigate('/cadastro')}>Cadastrar</Button>
               </div>
             </div>
 

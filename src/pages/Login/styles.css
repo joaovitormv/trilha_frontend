@@ -1,0 +1,187 @@
+.auth-main-content {
+  display: flex;
+  width: 100%;
+  flex: 1; 
+}
+
+.auth-split-card {
+  display: flex;
+  width: 100%;
+  max-width: none;
+  border-radius: 0;
+  /* Transparente para herdar o fundo preto do BaseLayout */
+  background-color: transparent; 
+  box-shadow: none;
+}
+
+/* --- LADO ESQUERDO (FORMULÁRIO) --- */
+.auth-form-side {
+  width: 50%;
+  padding: 40px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000; /* Fundo preto para combinar com o site */
+  color: #ffffff; /* Texto branco */
+}
+
+.auth-content-wrapper {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-titles {
+  margin-bottom: 40px;
+}
+
+.welcome-back {
+  font-size: 1.1rem;
+  color: #aaaaaa; /* Cinza claro */
+  margin: 0 0 8px 0;
+}
+
+.main-title {
+  font-size: 2.4rem;
+  color: #ffffff;
+  margin: 0;
+  font-weight: 800;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input-group label {
+  font-size: 1rem;
+  color: #e0e0e0;
+  font-weight: 600;
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Estilo de inputs adaptado para Dark Mode */
+.input-group input {
+  width: 100%;
+  padding: 18px 20px;
+  padding-right: 55px; 
+  border-radius: 8px;
+  border: 1px solid #333333; /* Borda sutil escura */
+  background-color: #1a1a1a; /* Fundo escuro para destacar do preto absoluto */
+  color: #ffffff;
+  font-size: 1.1rem;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+/* Alterar a cor do placeholder para ser legível no escuro */
+.input-group input::placeholder {
+  color: #666666;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #6a0dad; /* Borda roxa ao focar */
+}
+
+.eye-icon-btn {
+  position: absolute;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  opacity: 0.5;
+  padding: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.2s;
+}
+
+.eye-icon-btn:hover {
+  opacity: 1;
+}
+
+.auth-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -4px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #cccccc; /* Cinza claro */
+  cursor: pointer;
+}
+
+.remember-me input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #6a0dad; /* Pinta o checkbox de roxo em navegadores modernos */
+}
+
+.forgot-password {
+  color: #6a0dad; /* Roxo principal no link */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+  color: #8a2be2; /* Roxo mais claro no hover */
+}
+
+.auth-error-message {
+  color: #ff4d4d;
+  font-size: 0.95rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.auth-form .custom-btn {
+  width: 100%;
+  padding: 20px;
+  font-size: 1.1rem;
+}
+
+/* --- LADO DIREITO (IMAGEM) --- */
+.auth-image-side {
+  width: 50%;
+  background-color: #0a0a0a; /* Fundo bastante escuro */
+  /* background-image: url('/sua-imagem.jpg'); */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-left: 1px solid #1a1a1a; /* Linha de divisão sutil caso não haja imagem */
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 900px) {
+  .auth-form-side {
+    width: 100%;
+    padding: 60px 20px;
+  }
+  .auth-image-side {
+    display: none; 
+  }
+}

@@ -7,9 +7,26 @@ export const axiosClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  //Timeout de 10 segundos para cancelar requisições travadas
-  timeout: 10000, 
+  timeout: 10000,
 });
+
+axiosClient.interceptors.request.use(
+  (config) => {
+    // Busca o token salvo no armazenamento do navegador
+    const token = localStorage.getItem('@CineComp:token');
+    
+    // Se achou o token, anexa no cabeçalho de Autorização
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 
 // Interceptor de Resposta: Trata erros globais antes de chegarem ao componente
 axiosClient.interceptors.response.use(
