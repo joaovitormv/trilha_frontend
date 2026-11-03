@@ -26,10 +26,13 @@ export const Login = () => {
       setIsLoading(true);
       const response = await authService.login({ email, password });
       
-      const { token } = response.data;
-      localStorage.setItem('@CineComp:token', token);
+      // Extrai o token e os dados do usuário retornados pela API
+      const { token, user } = response.data;
       
-      navigate('/filmes');
+      localStorage.setItem('@CineComp:token', token);
+      localStorage.setItem('@CineComp:user', JSON.stringify(user));
+
+      navigate('/');
     } catch (err: any) {
       if (err.response && err.response.status === 401) {
         setError('E-mail ou senha inválidos.');
@@ -106,7 +109,7 @@ export const Login = () => {
               </div>
 
               <Button type="submit" disabled={isLoading}>
-                {isLoading ? 'A entrar...' : 'Entrar'}
+                {isLoading ? 'Entrando' : 'Entrar'}
               </Button>
             </form>
             

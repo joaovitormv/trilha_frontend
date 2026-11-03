@@ -1,31 +1,33 @@
+// src/routes.tsx
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
 import { BaseLayout } from './components/Layout';
 import { Home } from './pages/Home';
 import { Catalog } from './pages/Filmes';
-import {Login} from './pages/Login';
+import { Login } from './pages/Login';
+import { Cadastro } from './pages/Cadastro';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <BaseLayout />, 
+    element: <BaseLayout />,
     children: [
       {
-        path: '/', 
+        path: '/',
         element: <Home />,
       },
       {
-        path: '/filmes', 
+        path: '/filmes',
         element: <Catalog />, 
       },
       {
         path: '/login',
-        element: <Login/>,
+        element: <Login />,
       },
       {
         path: '/cadastro',
-        element: <div style={{ padding: '40px' }}>Tela de Cadastro (Em breve)</div>,
+        element: <Cadastro />,
       }
     ]
   }

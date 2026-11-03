@@ -19,3 +19,9 @@ export interface AuthResponse {
     token: string;
   };
 }
+
+export interface RegisterResponse {
+  success: boolean;
+  message: string;
+  data: User;
+}

@@ -1,42 +1,18 @@
 import React from 'react';
-import { Button } from '../../components/Button';
+import { VisitorView } from './visitorView';
+import { DashboardView } from './dashboardView';
+import type { User } from '../../api/types/user.types';
 import './styles.css';
-import { useNavigate } from 'react-router-dom';
 
 export const Home = () => {
-  const navigate = useNavigate();
+  const token = localStorage.getItem('@CineComp:token');
+  const storedUser = localStorage.getItem('@CineComp:user');
+  const user: User | null = storedUser ? JSON.parse(storedUser) : null;
+  const isAuthenticated = Boolean(token);
+
   return (
-    <div className="home-page-container">
-      
-      <main className="home-main-content">
-        <div className="hero-card">
-          
-          {/* A div hero-content agrupa os textos e fica por cima da imagem de fundo */}
-          <div className="hero-content">
-            
-            {/* Lado Esquerdo (Título em cima, Login embaixo) */}
-            <div className="hero-left">
-              <h1>Crie, edite e favorite<br />seus filmes com o<br />CineComp</h1>
-              
-              <div className="action-box">
-                <p>Já possui uma conta?</p>
-                <Button onClick={() => navigate('/login')}>Login</Button>
-              </div>
-            </div>
-
-            {/* Lado Direito (Cadastro em cima) */}
-            <div className="hero-right">
-              {/* Adicionamos uma classe extra para centralizar o botão de cadastrar com o texto */}
-              <div className="action-box align-center">
-                <p>É novo por aqui?</p>
-                <Button onClick={() => navigate('/cadastro')}>Cadastrar</Button>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </main>
+    <div className="home-main-content">
+      {isAuthenticated ? <DashboardView user={user} /> : <VisitorView />}
     </div>
   );
 };

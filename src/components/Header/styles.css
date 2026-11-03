@@ -1,39 +1,67 @@
-.app-header, .app-footer {
+.app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
-  color: white;
+  background-color: #000000;
+  color: #ffffff;
 }
+
 .logo-container {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  text-decoration: none;
 }
+
 .logo-icon {
-  width: 40px; 
-  height: auto;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
 }
+
 .logo-text {
   font-size: 1.5rem;
   font-weight: bold;
+  color: #ffffff;
 }
+
 .nav-links {
   display: flex;
-  gap: 20px;
+  gap: 24px;
+  align-items: center;
 }
+
+/* === CORREÇÃO DOS LINKS === */
 .nav-links a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
+  color: #ffffff;
+  text-decoration: none; /* Remove o sublinhado */
+  font-size: 1rem;
+  font-weight: 600;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8); /* Adiciona o efeito de sombra */
   transition: all 0.2s ease-in-out;
 }
 
 .nav-links a:hover {
-  text-decoration: underline;
-  text-underline-offset: 6px; 
-  color: #e0e0e0; 
+  color: #6a0dad;
+  text-shadow: 0 0 8px rgba(106, 13, 173, 0.6); /* Efeito de brilho/sombra roxa no hover */
 }
-.app-footer .social-icon img {
-  width: 30px; 
+
+/* O botão de Sair deve herdar as mesmas características visuais dos links */
+.nav-logout-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-logout-btn:hover {
+  color: #ff4d4d; /* Cor avermelhada sutil para o hover de "Sair" */
+  text-shadow: 0 0 8px rgba(255, 77, 77, 0.6);
 }

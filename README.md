@@ -1,77 +1,90 @@
-# React + TypeScript + Vite
+# 🎬 CineComp - Trilha Trainee Frontend Comp Júnior
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+O CineComp é uma aplicação web moderna e responsiva desenvolvida para a gestão e visualização de um catálogo de filmes. Este projeto faz parte do desafio da **Trilha Trainee de Frontend da Comp Júnior**, com foco em desenvolver uma arquitetura robusta, escalável e tipada, entregando uma excelente experiência de usuário (UX/UI) com um design *Dark Mode*.
 
-Currently, two official plugins are available:
+## ✨ Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+* **Catálogo de Filmes**: Listagem completa de filmes com paginação dinâmica no frontend.
+* **Autenticação Segura**: Sistema de Login e Registro com persistência de sessão via JWT (`localStorage`).
+* **Gestão de Estado e Rotas**: Navegação fluida do tipo SPA (*Single Page Application*) utilizando React Router DOM.
+* **Design Responsivo**: Interface adaptável para dispositivos móveis, tablets e desktops (com layout *Split-Screen* na tela de login).
+* **Integração de API**: Consumo assíncrono de API RESTful com interceptação de erros e injeção automática de tokens via Axios.
 
-## React Compiler
+## 🛠️ Tecnologias Utilizadas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* **Frontend**: React 18, Vite
+* **Linguagem**: TypeScript
+* **Roteamento**: React Router DOM
+* **Requisições HTTP**: Axios
+* **Estilização**: CSS puro (com arquitetura *Folder-as-Component*)
 
-## Expanding the ESLint configuration
+## 🔗 Backend (API)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Este frontend foi desenvolvido para consumir a API RESTful construída no projeto backend oficial da trilha. Para que a aplicação funcione corretamente, é necessário rodar a API localmente.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+* **Repositório da API:** [backend-cinecomp-2026-2](https://github.com/jpedroreiss/backend-cinecomp-2026-2.git)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 📂 Arquitetura do Projeto
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+O projeto segue rigorosamente o padrão **Folder-as-Component**, garantindo um encapsulamento perfeito de lógica e estilo para cada tela e componente.
 
+```text
+src/
+├── api/
+│   ├── config/        # Configuração do Axios e Interceptors globais
+│   ├── services/      # Endpoints da API (authService, movieService)
+│   └── types/         # Interfaces e Tipagens (TypeScript)
+├── components/
+│   ├── BaseLayout/    # Layout estrutural base (Header, Footer e Outlet)
+│   ├── Button/        # Componentes de UI reutilizáveis
+│   ├── Footer/
+│   ├── Header/
+│   └── Pagination/    # Componente avançado de paginação (UI)
+├── pages/
+│   ├── Catalog/       # Tela principal do catálogo de filmes
+│   ├── Home/          # Landing page (Hero Banner)
+│   ├── Login/         # Tela de autenticação e acesso
+│   └── Register/      # Tela de criação de nova conta
+├── routes.tsx         # Configuração centralizada das rotas da aplicação
+├── App.tsx            # Ponto de entrada do Router Provider
+└── main.tsx           # Ponto de montagem raiz do React
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## 🚀 Instalação e Execução
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Pré-requisitos
+* [Node.js](https://nodejs.org/) (versão 16 ou superior)
+* npm ou yarn
+* Backend da API rodando localmente (normalmente na porta `3001`).
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Passos para rodar o projeto
 
-```
-# trilha_frontend
-# trilha_frontend
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/joaovitormv/trilha_frontend.git
+   ```
+2. Acesse a pasta do projeto:
+   ```bash
+   cd trilha_frontend
+   ```
+3. Instale as dependências:
+   ```bash
+   npm install
+   ```
+4. Configure as variáveis de ambiente:
+   Crie um arquivo chamado `.env.local` na raiz do projeto e adicione a seguinte variável apontando para a sua API rodando localmente:
+   ```env
+   VITE_API_URL=http://localhost:3001
+   ```
+5. Inicie o servidor de desenvolvimento:
+   ```bash
+   npm run dev
+   ```
+6. Abra o navegador em `http://localhost:5173`.
+
+## 🔐 Autenticação e Interceptores
+
+O frontend se comunica com a API utilizando uma instância centralizada do Axios (`axiosClient`). 
+* As requisições que falham por erro de autenticação (401) são tratadas para fornecer feedback visual ao usuário.
+* Após um login bem-sucedido, o *Token JWT* é salvo de forma segura no `localStorage` do navegador sob a chave `@CineComp:token`.
+* Um **Interceptor de Requisição** captura todas as chamadas feitas para o backend e injeta automaticamente o cabeçalho `Authorization: Bearer <token>`, permitindo acesso transparente às rotas protegidas.
