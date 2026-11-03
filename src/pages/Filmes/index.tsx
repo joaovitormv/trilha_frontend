@@ -1,24 +1,22 @@
-// src/pages/Catalog/index.tsx
 import React, { useEffect, useState } from 'react';
 import { movieService } from '../../api/services/movieService';
 import type { Movie } from '../../api/types/movie.types';
-import { Pagination } from '../../components/Pagination'; // Importação do nosso novo componente
+import { Pagination } from '../../components/Pagination';
+import { getFriendlyApiError, type FriendlyError } from '../../api/utils/errorHandler';
+import { Modal } from '../../components/Modal';
 
 import './styles.css';
 
 export const Catalog = () => {
-  // Estados de dados e carregamento
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  // Estados de Paginação
-  const [currentPage, setCurrentPage] = useState<number>(1);
   
+  // Estado adaptado para o novo errorHandler
+  const [apiError, setApiError] = useState<FriendlyError | null>(null);
 
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const ITEMS_PER_PAGE = 10; 
 
-  // Cálculos para fatiar a lista de filmes exibida na tela atual
   const totalPages = Math.ceil(movies.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const currentMovies = movies.slice(startIndex, startIndex + ITEMS_PER_PAGE);
@@ -29,7 +27,6 @@ export const Catalog = () => {
         setIsLoading(true);
         const resposta = await movieService.getAll();
         
-        // Verifica o formato dos dados que chegam da API
         if (Array.isArray(resposta)) {
           setMovies(resposta);
         } else if (resposta && Array.isArray((resposta as any).rows)) {
@@ -37,13 +34,12 @@ export const Catalog = () => {
         } else if (resposta && Array.isArray((resposta as any).data)) {
           setMovies((resposta as any).data);
         } else {
-          console.error('Formato desconhecido:', resposta);
           setMovies([]); 
-          setError('Formato de dados inválido recebido do servidor.');
+          setApiError({ title: 'Erro de Formato', message: 'Formato de dados inválido recebido do servidor.' });
         }
       } catch (err) {
-        console.error('Erro ao buscar filmes:', err);
-        setError('Não foi possível carregar o catálogo de filmes. Verifique se o backend está rodando.');
+        // Envia o erro para o tradutor global
+        setApiError(getFriendlyApiError(err));
       } finally {
         setIsLoading(false);
       }
@@ -53,32 +49,25 @@ export const Catalog = () => {
   }, []);
 
   return (
-    // O <main> é injetado diretamente no Outlet do BaseLayout
     <main className="catalog-main-content">
       <h1 className="catalog-title">Catálogo de Filmes</h1>
 
-      {isLoading && <p className="loading-text">Carregando filmes...</p>}
+      {isLoading && <p className="loading-text">A carregar filmes...</p>}
       
-      {error && <p className="error-text">{error}</p>}
-
-      {!isLoading && !error && Array.isArray(movies) && movies.length === 0 && (
-        <p className="empty-text">Nenhum filme encontrado. Adicione alguns no banco de dados!</p>
+      {!isLoading && !apiError && Array.isArray(movies) && movies.length === 0 && (
+        <p className="empty-text">Nenhum filme encontrado no sistema.</p>
       )}
 
-      {/* Renderiza o catálogo e a paginação em caso de sucesso */}
-      {!isLoading && !error && Array.isArray(movies) && movies.length > 0 && (
+      {!isLoading && Array.isArray(movies) && movies.length > 0 && (
         <>
           <div className="movies-grid">
-            {/* O map agora roda apenas nos filmes fatiados da página atual (currentMovies) */}
             {currentMovies.map((movie) => (
               <div key={movie.id} className="movie-card-simple">
-                
                 {movie.posterUrl ? (
                   <img src={movie.posterUrl} alt={movie.title} className="movie-poster" />
                 ) : (
                   <div className="no-poster">Sem Pôster</div>
                 )}
-                
                 <h3 className="movie-title">{movie.title}</h3>
                 <p className="movie-year">{movie.releaseYear}</p>
                 <p className="movie-genre">{movie.genre}</p>
@@ -86,7 +75,6 @@ export const Catalog = () => {
             ))}
           </div>
 
-          {/* O componente de paginação assume a renderização dos botões */}
           <Pagination 
             currentPage={currentPage} 
             totalPages={totalPages} 
@@ -94,6 +82,15 @@ export const Catalog = () => {
           />
         </>
       )}
+
+      {/* Renderiza o popup de erro se algo falhar */}
+      <Modal
+        isOpen={Boolean(apiError)}
+        variant="error"
+        title={apiError?.title || ''}
+        message={apiError?.message || ''}
+        onClose={() => setApiError(null)}
+      />
     </main>
   );
 };

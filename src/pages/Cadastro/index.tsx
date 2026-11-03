@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { Eye, EyeOff } from 'lucide-react';
 import { authService } from '../../api/services/authService';
+import { getFriendlyApiError } from '../../api/utils/errorHandler';
 import { Button } from '../../components/Button';
+import { Modal, type ModalVariant } from '../../components/Modal';
 import './styles.css';
 
 export const Cadastro = () => {
@@ -9,20 +12,27 @@ export const Cadastro = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-
-  const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const [modalState, setModalState] = useState<{ isOpen: boolean; variant: ModalVariant; title: string; message: string }>({
+    isOpen: false,
+    variant: 'error',
+    title: '',
+    message: ''
+  });
 
   const navigate = useNavigate();
 
   const handleCadastro = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    setSuccessMessage('');
 
     if (!name.trim() || !email.trim() || !password) {
-      setError('Preencha todos os campos.');
+      setModalState({
+        isOpen: true,
+        variant: 'error',
+        title: 'Campos Obrigatórios',
+        message: 'Por favor, preencha todos os campos para criar a sua conta.'
+      });
       return;
     }
 
@@ -30,40 +40,38 @@ export const Cadastro = () => {
       setIsLoading(true);
       await authService.register({ name, email, password });
 
-      setSuccessMessage('Usuário criado com sucesso! Redirecionando para o login...');
+      setModalState({
+        isOpen: true,
+        variant: 'success',
+        title: 'Conta Criada!',
+        message: 'Seu cadastro foi concluído com sucesso. Agora você já pode fazer login.'
+      });
 
-      // Aguarda 1.5s para o usuário ler a mensagem de sucesso antes de ir para o login
-      setTimeout(() => {
-        navigate('/login');
-      }, 1500);
-
-    } catch (err: any) {
-      if (err.response) {
-        const status = err.response.status;
-        const apiMessage = err.response.data?.message;
-
-        if (status === 409) {
-          setError(apiMessage || 'Este e-mail já está em uso.');
-        } else if (status === 400) {
-          setError(apiMessage || 'Erro de validação. Verifique os dados informados.');
-        } else {
-          setError('Ocorreu um erro ao realizar o cadastro. Tente novamente.');
-        }
-      } else {
-        setError('Erro de conexão com o servidor.');
-      }
+    } catch (err) {
+      const apiError = getFriendlyApiError(err);
+      setModalState({
+        isOpen: true,
+        variant: 'error',
+        title: apiError.title,
+        message: apiError.message
+      });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setModalState((prev) => ({ ...prev, isOpen: false }));
+    if (modalState.variant === 'success') {
+      navigate('/login');
     }
   };
 
   return (
     <main className="auth-main-content">
       <div className="auth-split-card">
-        
         <div className="auth-form-side">
           <div className="auth-content-wrapper">
-            
             <div className="auth-titles">
               <p className="welcome-back">Junte-se ao CineComp!</p>
               <h1 className="main-title">Crie a sua conta</h1>
@@ -75,10 +83,10 @@ export const Cadastro = () => {
                 <input 
                   type="text" 
                   id="name"
-                  placeholder="Digite seu nome completo"
+                  placeholder="Digite o seu nome completo"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  disabled={isLoading || !!successMessage}
+                  disabled={isLoading}
                 />
               </div>
 
@@ -87,10 +95,10 @@ export const Cadastro = () => {
                 <input 
                   type="email" 
                   id="email"
-                  placeholder="Entre com endereço de email"
+                  placeholder="Entre com o endereço de email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  disabled={isLoading || !!successMessage}
+                  disabled={isLoading}
                 />
               </div>
 
@@ -103,7 +111,7 @@ export const Cadastro = () => {
                     placeholder="Crie uma senha"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    disabled={isLoading || !!successMessage}
+                    disabled={isLoading}
                   />
                   <button 
                     type="button" 
@@ -111,15 +119,12 @@ export const Cadastro = () => {
                     onClick={() => setShowPassword(!showPassword)}
                     tabIndex={-1}
                   >
-                    {showPassword ? '🙈' : '👁️'}
+                    {showPassword ? <EyeOff size={20} color="#666" /> : <Eye size={20} color="#666" />}
                   </button>
                 </div>
               </div>
 
-              {error && <p className="auth-error-message">{error}</p>}
-              {successMessage && <p className="auth-success-message">{successMessage}</p>}
-
-              <Button type="submit" disabled={isLoading || !!successMessage}>
+              <Button type="submit" disabled={isLoading}>
                 {isLoading ? 'Cadastrando...' : 'Cadastrar'}
               </Button>
 
@@ -127,13 +132,19 @@ export const Cadastro = () => {
                 Já possui uma conta? <Link to="/login">Faça login</Link>
               </p>
             </form>
-            
           </div>
         </div>
 
         <div className="auth-image-side"></div>
-
       </div>
+
+      <Modal
+        isOpen={modalState.isOpen}
+        variant={modalState.variant}
+        title={modalState.title}
+        message={modalState.message}
+        onClose={handleCloseModal}
+      />
     </main>
   );
 };

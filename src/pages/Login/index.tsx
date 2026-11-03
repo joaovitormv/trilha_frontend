@@ -1,71 +1,63 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Eye, EyeOff } from 'lucide-react';
 import { authService } from '../../api/services/authService';
+import { getFriendlyApiError, type FriendlyError } from '../../api/utils/errorHandler';
 import { Button } from '../../components/Button';
+import { Modal } from '../../components/Modal';
 import './styles.css';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); 
-  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
+  const [apiError, setApiError] = useState<FriendlyError | null>(null);
+
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
 
-    if (!email || !password) {
-      setError('Preencha todos os campos.');
+    if (!email.trim() || !password) {
+      setApiError({
+        title: 'Campos Obrigatórios',
+        message: 'Por favor, preencha o seu e-mail e a sua senha para continuar.'
+      });
       return;
     }
 
     try {
       setIsLoading(true);
       const response = await authService.login({ email, password });
-      
-      // Extrai o token e os dados do usuário retornados pela API
       const { token, user } = response.data;
-      
+
       localStorage.setItem('@CineComp:token', token);
       localStorage.setItem('@CineComp:user', JSON.stringify(user));
 
       navigate('/');
-    } catch (err: any) {
-      if (err.response && err.response.status === 401) {
-        setError('E-mail ou senha inválidos.');
-      } else {
-        setError('Ocorreu um erro no servidor. Tente novamente mais tarde.');
-      }
+    } catch (err) {
+      setApiError(getFriendlyApiError(err));
     } finally {
       setIsLoading(false);
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
   return (
     <main className="auth-main-content">
       <div className="auth-split-card">
-        
         <div className="auth-form-side">
-          {/* Wrapper centralizador para agrupar e dimensionar o formulário */}
           <div className="auth-content-wrapper">
-            
             <div className="auth-titles">
-              <p className="welcome-back">Bem vindo de volta!</p>
+              <p className="welcome-back">Bem-vindo de volta!</p>
               <h1 className="main-title">Faça o login novamente</h1>
             </div>
-            
+
             <form onSubmit={handleLogin} className="auth-form">
               <div className="input-group">
                 <label htmlFor="email">Email</label>
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   id="email"
                   placeholder="Entre com endereço de email"
                   value={email}
@@ -77,48 +69,42 @@ export const Login = () => {
               <div className="input-group">
                 <label htmlFor="password">Senha</label>
                 <div className="password-input-wrapper">
-                  <input 
-                    type={showPassword ? 'text' : 'password'} 
+                  <input
+                    type={showPassword ? 'text' : 'password'}
                     id="password"
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     disabled={isLoading}
                   />
-                  <button 
-                    type="button" 
-                    className="eye-icon-btn" 
-                    onClick={togglePasswordVisibility}
-                    tabIndex={-1} 
+                  <button
+                    type="button"
+                    className="eye-icon-btn"
+                    onClick={() => setShowPassword(!showPassword)}
+                    tabIndex={-1}
                   >
-                    {showPassword ? '🙈' : '👁️'}
+                    {showPassword ? <EyeOff size={20} color="#666" /> : <Eye size={20} color="#666" />}
                   </button>
                 </div>
               </div>
 
-              {error && <p className="auth-error-message">{error}</p>}
-
-              <div className="auth-options">
-                <label className="remember-me">
-                  <input type="checkbox" />
-                  Lembrar
-                </label>
-                <a href="#" className="forgot-password">
-                  Eu esqueci minha senha
-                </a>
-              </div>
-
               <Button type="submit" disabled={isLoading}>
-                {isLoading ? 'Entrando' : 'Entrar'}
+                {isLoading ? 'Entrando...' : 'Entrar'}
               </Button>
             </form>
-            
           </div>
         </div>
 
         <div className="auth-image-side"></div>
-
       </div>
+
+      <Modal
+        isOpen={Boolean(apiError)}
+        variant="error"
+        title={apiError?.title || ''}
+        message={apiError?.message || ''}
+        onClose={() => setApiError(null)}
+      />
     </main>
   );
 };
