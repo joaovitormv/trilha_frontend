@@ -84,6 +84,7 @@ export const Login = () => {
                     tabIndex={-1}
                   >
                     {showPassword ? <EyeOff size={20} color="#666" /> : <Eye size={20} color="#666" />}
+                    {isLoading ? 'Entrando...' : 'Entrar'}
                   </button>
                 </div>
               </div>

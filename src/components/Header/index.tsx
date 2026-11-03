@@ -51,8 +51,7 @@ export const Header = () => {
         </nav>
       </header>
 
-      <Modal
-        isOpen={isLogoutModalOpen}
+      <Modal       isOpen={isLogoutModalOpen}
         variant="confirm"
         title="Deseja mesmo sair?"
         message="Sua sessão será encerrada e você precisará fazer login novamente para acessar o sistema."

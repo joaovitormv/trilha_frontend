@@ -1,0 +1,186 @@
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  background-color: #0d0d0d;
+  border: 1px solid #1f1f1f;
+  border-radius: 16px;
+  padding: 24px 32px;
+  margin-bottom: 32px;
+}
+
+/* --- 1. BARRA DE PESQUISA --- */
+.search-bar-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  align-items: center;
+}
+
+.search-bar-icon {
+  position: absolute;
+  left: 16px;
+  color: #777777;
+  pointer-events: none;
+}
+
+.search-bar-input {
+  width: 100%;
+  padding: 12px 40px 12px 44px;
+  background-color: #161616;
+  border: 1px solid #2b2b2b;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.search-bar-input::placeholder {
+  color: #666666;
+}
+
+.search-bar-input:focus {
+  outline: none;
+  border-color: #6a0dad;
+  box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.2);
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #888888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.clear-search-btn:hover {
+  color: #ffffff;
+}
+
+/* --- 2. PÍLULAS DE GÊNERO --- */
+.genre-pills-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.genre-pill {
+  background-color: #181818;
+  border: 1px solid #2b2b2b;
+  color: #cccccc;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.genre-pill:hover {
+  background-color: #242424;
+  color: #ffffff;
+}
+
+.genre-pill.active {
+  background-color: #6a0dad;
+  border-color: #6a0dad;
+  color: #ffffff;
+}
+
+/* --- 3. CONTROLES SECUNDÁRIOS COMPACTOS --- */
+.secondary-filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+  padding-top: 8px;
+  border-top: 1px solid #1a1a1a;
+}
+
+.compact-control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.compact-control label {
+  font-size: 0.75rem;
+  color: #888888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-left: 4px;
+}
+
+.compact-control input,
+.compact-control select {
+  background-color: #161616;
+  border: 1px solid #2b2b2b;
+  border-radius: 10px;
+  color: #e0e0e0;
+  padding: 8px 12px;
+  font-size: 0.88rem;
+  height: 36px;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.compact-control input::placeholder {
+  color: #555555;
+}
+
+.compact-control input:focus,
+.compact-control select:focus {
+  outline: none;
+  border-color: #6a0dad;
+}
+
+.compact-year input {
+  width: 115px;
+}
+
+.reset-filters-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  background-color: transparent;
+  border: 1px solid #3a3a3a;
+  border-radius: 10px;
+  color: #bbbbbb;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.reset-filters-btn:hover {
+  border-color: #ff4d4d;
+  color: #ff4d4d;
+}
+
+@media (max-width: 768px) {
+  .filter-section {
+    padding: 18px 16px;
+  }
+  .secondary-filters-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .compact-year input {
+    width: 100%;
+  }
+}

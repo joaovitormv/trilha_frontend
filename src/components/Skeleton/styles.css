@@ -1,0 +1,63 @@
+/* Animação de brilho escuro (Shimmer Effect) */
+.skeleton-base {
+  background: linear-gradient(
+    90deg,
+    #181818 25%,
+    #282828 50%,
+    #181818 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite ease-in-out;
+}
+
+/* Estrutura idêntica ao .movie-card-simple do Catálogo */
+.skeleton-movie-card {
+  background-color: #121212;
+  border: 1px solid #222222;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeleton-poster-area {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: 8px;
+}
+
+.skeleton-title-line {
+  width: 80%;
+  height: 18px;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.skeleton-meta-line {
+  width: 40%;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.skeleton-genre-line {
+  width: 60%;
+  height: 14px;
+  border-radius: 4px;
+}
+
+/* Estrutura idêntica ao .latest-movie-card da Home */
+.skeleton-dashboard-poster {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: 6px;
+}
+
+@keyframes skeletonShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

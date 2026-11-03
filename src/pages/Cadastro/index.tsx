@@ -120,12 +120,14 @@ export const Cadastro = () => {
                     tabIndex={-1}
                   >
                     {showPassword ? <EyeOff size={20} color="#666" /> : <Eye size={20} color="#666" />}
+                    {isLoading ? 'Entrando...' : 'Entrar'}
                   </button>
                 </div>
               </div>
 
               <Button type="submit" disabled={isLoading}>
                 {isLoading ? 'Cadastrando...' : 'Cadastrar'}
+                {isLoading ? 'Entrando...' : 'Entrar'}
               </Button>
 
               <p className="auth-redirect-text">
