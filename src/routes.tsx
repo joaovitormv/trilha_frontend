@@ -1,10 +1,10 @@
-// src/routes.tsx
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
 import { BaseLayout } from './components/Layout';
 import { Home } from './pages/Home';
 import { Catalog } from './pages/Filmes';
+import { MovieDetails } from './pages/MovieDetails';
 import { Login } from './pages/Login';
 import { Cadastro } from './pages/Cadastro';
 
@@ -13,22 +13,11 @@ export const router = createBrowserRouter([
     path: '/',
     element: <BaseLayout />,
     children: [
-      {
-        path: '/',
-        element: <Home />,
-      },
-      {
-        path: '/filmes',
-        element: <Catalog />, 
-      },
-      {
-        path: '/login',
-        element: <Login />,
-      },
-      {
-        path: '/cadastro',
-        element: <Cadastro />,
-      }
-    ]
-  }
+      { path: '/', element: <Home /> },
+      { path: '/filmes', element: <Catalog /> },
+      { path: '/filmes/:id', element: <MovieDetails /> },
+      { path: '/login', element: <Login /> },
+      { path: '/cadastro', element: <Cadastro /> },
+    ],
+  },
 ]);

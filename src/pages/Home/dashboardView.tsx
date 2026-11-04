@@ -11,7 +11,7 @@ import { getFriendlyApiError, type FriendlyError } from '../../api/utils/errorHa
 export const DashboardView = ({ user }: { user: User | null }) => {
   const navigate = useNavigate();
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState<FriendlyError | null>(null);
 
   useEffect(() => {
@@ -61,9 +61,9 @@ export const DashboardView = ({ user }: { user: User | null }) => {
           <div className="latest-movies-grid">
             {latestMovies.map((movie) => (
               <div 
-                key={movie.id} 
-                className="latest-movie-card" 
-                onClick={() => navigate('/filmes')} 
+                key={movie.id}
+                className="latest-movie-card"
+                onClick={() => navigate(`/filmes/${movie.id}`)}
                 title={movie.title}
               >
                 {movie.posterUrl ? (

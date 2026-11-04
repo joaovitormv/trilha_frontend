@@ -6,7 +6,17 @@ export interface Movie {
   director: string;
   releaseYear: number;
   rating: number;
-  posterUrl?: string; // Opcional, pois no Sequelize está allowNull: true
+  posterUrl?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
-export type MoviePayload = Omit<Movie, 'id'>;
+export interface MoviePayload {
+  title: string;
+  description: string;
+  genre: string;
+  director: string;
+  releaseYear: number;
+  rating: number;
+  posterUrl?: string;
+}

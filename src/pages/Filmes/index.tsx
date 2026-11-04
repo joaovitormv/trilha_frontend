@@ -8,8 +8,10 @@ import { Modal } from '../../components/Modal';
 import { MovieCardSkeleton } from '../../components/Skeleton';
 import { FilterBar, INITIAL_FILTERS, type FilterState } from '../../components/FilterBar';
 import './styles.css';
+import { useNavigate } from 'react-router-dom';
 
 export const Catalog = () => {
+  const navigate = useNavigate();
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [apiError, setApiError] = useState<FriendlyError | null>(null);
@@ -56,7 +58,13 @@ export const Catalog = () => {
     }
   }, []);
 
+  // ... (mantenha os imports, estados e o fetchMovies intactos)
+
+  // 1. ATUALIZAR O USE EFFECT
   useEffect(() => {
+    // Liga o esqueleto IMEDIATAMENTE ao mudar de página ou filtro
+    setIsLoading(true); 
+    
     const timer = setTimeout(() => {
       fetchMovies(currentPage, filters);
     }, 300);
@@ -74,6 +82,7 @@ export const Catalog = () => {
     setCurrentPage(1);
   };
 
+  // 2. ATUALIZAR O RETURN
   return (
     <main className="catalog-main-content">
       <FilterBar
@@ -84,41 +93,44 @@ export const Catalog = () => {
 
       <h1 className="catalog-title">Catálogo de Filmes</h1>
 
-      {isLoading && (
+      {/* Se estiver carregando, mostra o esqueleto */}
+      {isLoading ? (
         <div className="movies-grid">
           <MovieCardSkeleton count={ITEMS_PER_PAGE} />
         </div>
-      )}
-
-      {!isLoading && !apiError && movies.length === 0 && (
+      ) : !apiError && movies.length === 0 ? (
         <p className="empty-text">Nenhum filme encontrado para os filtros selecionados.</p>
-      )}
+      ) : !apiError && movies.length > 0 ? (
+        <div className="movies-grid">
+          {movies.map((movie) => (
+            <div 
+              key={movie.id} 
+              className="movie-card-simple"
+              onClick={() => navigate(`/filmes/${movie.id}`)}
+              style={{ cursor: 'pointer' }}
+            >
+              {movie.posterUrl ? (
+                <img src={movie.posterUrl} alt={movie.title} className="movie-poster" />
+              ) : (
+                <div className="no-poster">Sem Pôster</div>
+              )}
+              <h3 className="movie-title">{movie.title}</h3>
+              <p className="movie-year">
+                {movie.releaseYear} • <Star size={13} color="#f5c518" fill="#f5c518" /> {movie.rating}
+              </p>
+              <p className="movie-genre">{movie.genre}</p>
+            </div>
+          ))}
+        </div>
+      ) : null}
 
-      {!isLoading && !apiError && movies.length > 0 && (
-        <>
-          <div className="movies-grid">
-            {movies.map((movie) => (
-              <div key={movie.id} className="movie-card-simple">
-                {movie.posterUrl ? (
-                  <img src={movie.posterUrl} alt={movie.title} className="movie-poster" />
-                ) : (
-                  <div className="no-poster">Sem Pôster</div>
-                )}
-                <h3 className="movie-title">{movie.title}</h3>
-                <p className="movie-year">
-                  {movie.releaseYear} • <Star size={13} color="#f5c518" fill="#f5c518" /> {movie.rating}
-                </p>
-                <p className="movie-genre">{movie.genre}</p>
-              </div>
-            ))}
-          </div>
-
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
-        </>
+      {/* A paginação fica solta aqui embaixo para não sumir da tela durante o loading */}
+      {!apiError && totalPages > 0 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
       )}
 
       <Modal
