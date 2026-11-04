@@ -9,6 +9,7 @@ import { MovieDetails } from './pages/MovieDetails';
 import { Favorites } from './pages/Favorites';
 import { Login } from './pages/Login';
 import { Cadastro } from './pages/Cadastro';
+import { CreateMovie } from './pages/MovieCreate';
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +38,13 @@ export const router = createBrowserRouter([
           // As próximas duas telas já entrarão protegidas aqui:
           // { path: '/filmes/novo', element: <CreateMovie /> },
           // { path: '/perfil', element: <Profile /> },
+        ],
+      },
+      {
+        element: <PrivateRoute />,
+        children: [
+          { path: '/favoritos', element: <Favorites /> },
+          { path: '/filmes/novo', element: <CreateMovie /> },
         ],
       },
     ],

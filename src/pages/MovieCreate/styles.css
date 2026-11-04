@@ -1,0 +1,233 @@
+.create-movie-page {
+  display: flex;
+  justify-content: center;
+  padding: 32px 24px 60px;
+  width: 100%;
+  flex: 1;
+  box-sizing: border-box;
+}
+
+.create-movie-wrapper {
+  width: 100%;
+  max-width: 1020px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.create-top-bar {
+  display: flex;
+  align-items: center;
+}
+
+.create-movie-card {
+  background-color: #0d0d0d;
+  border: 1px solid #1f1f1f;
+  border-radius: 20px;
+  padding: 36px 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.create-movie-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 28px 0;
+}
+
+.create-movie-layout {
+  display: grid;
+  grid-template-columns: 1fr 290px;
+  gap: 40px;
+  align-items: stretch;
+}
+
+/* --- COLUNA ESQUERDA: FORMULÁRIO --- */
+.create-form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-row-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.form-field label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #cccccc;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  background-color: #161616;
+  border: 1px solid #2b2b2b;
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: #555555;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: #6a0dad;
+  box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.18);
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* --- BOTÕES DE AÇÃO --- */
+.create-form-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.cancel-create-btn {
+  background-color: transparent;
+  border: 1px solid #3a3a3a;
+  color: #e0e0e0;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-create-btn:hover {
+  background-color: #1f1f1f;
+  border-color: #555555;
+  color: #ffffff;
+}
+
+.submit-btn-inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* --- COLUNA DIREITA: QUADRO DO PÔSTER --- */
+.create-poster-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.poster-preview-box {
+  width: 100%;
+  height: 100%;
+  min-height: 410px;
+  background-color: #121212;
+  border: 2px dashed #332440;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 20px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.poster-preview-box:hover {
+  border-color: #6a0dad;
+}
+
+.poster-preview-img {
+  width: 100%;
+  height: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.poster-placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 16px;
+}
+
+.poster-placeholder-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #e0e0e0;
+}
+
+.poster-placeholder-hint {
+  font-size: 0.84rem;
+  color: #777777;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.poster-format-badges {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.poster-format-badges span {
+  background-color: #1c1c1c;
+  border: 1px solid #2e2e2e;
+  color: #888888;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 860px) {
+  .create-movie-card {
+    padding: 24px 20px;
+  }
+
+  .create-movie-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .create-poster-column {
+    order: -1;
+    max-width: 260px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .poster-preview-box {
+    min-height: 340px;
+  }
+
+  .form-row-two,
+  .create-form-actions {
+    grid-template-columns: 1fr;
+  }
+}

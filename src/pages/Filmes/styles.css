@@ -118,3 +118,20 @@
   border-color: #6a0dad;
   pointer-events: none; /* Impede de clicar na página que já está aberta */
 }
+
+.catalog-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px; /* Dá um respiro excelente entre o cabeçalho e os cards abaixo */
+  flex-wrap: wrap;
+  gap: 16px;
+  width: 100%;
+}
+
+.catalog-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0; /* Remove margens internas que possam empurrar o botão */
+}

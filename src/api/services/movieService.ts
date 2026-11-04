@@ -48,6 +48,14 @@ export const movieService = {
     return response.data as Movie;
   },
 
+  create: async (payload: MoviePayload): Promise<Movie> => {
+    const response = await axiosClient.post<SingleMovieResponse | Movie>('/api/movies', payload);
+    if (response.data && 'data' in response.data) {
+      return response.data.data;
+    }
+    return response.data as Movie;
+  },
+
   update: async (id: number, payload: MoviePayload): Promise<Movie> => {
     const response = await axiosClient.put<SingleMovieResponse | Movie>(`/api/movies/${id}`, payload);
     if (response.data && 'data' in response.data) {

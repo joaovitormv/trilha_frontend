@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Star } from 'lucide-react';
+import { Star, Plus } from 'lucide-react';
 import { movieService, type GetMoviesParams } from '../../api/services/movieService';
 import type { Movie } from '../../api/types/movie.types';
 import { Pagination } from '../../components/Pagination';
@@ -9,13 +9,14 @@ import { MovieCardSkeleton } from '../../components/Skeleton';
 import { FilterBar, INITIAL_FILTERS, type FilterState } from '../../components/FilterBar';
 import './styles.css';
 import { useNavigate } from 'react-router-dom';
+import {Button} from '../../components/Button';
 
 export const Catalog = () => {
   const navigate = useNavigate();
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [apiError, setApiError] = useState<FriendlyError | null>(null);
-
+  const isAuthenticated = Boolean(localStorage.getItem('@CineComp:token'));
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const ITEMS_PER_PAGE = 10;
@@ -91,7 +92,19 @@ export const Catalog = () => {
         onReset={handleResetFilters}
       />
 
-      <h1 className="catalog-title">Catálogo de Filmes</h1>
+      <div className="catalog-header-row">
+        <h1 className="catalog-title" style={{ margin: 0 }}>Catálogo de Filmes</h1>
+        
+        {isAuthenticated && (
+          <Button onClick={() => navigate('/filmes/novo')} style={{ width: 'auto', padding: '10px 20px' }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+              <Plus size={18} />
+              Adicionar Filme
+            </span>
+          </Button>
+        )}
+      </div>
+
 
       {/* Se estiver carregando, mostra o esqueleto */}
       {isLoading ? (
