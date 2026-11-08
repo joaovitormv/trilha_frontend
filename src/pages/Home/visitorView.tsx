@@ -1,11 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/Button';
+import fundoFilme from '../../assets/fundo-filme.png';
 
 export const VisitorView = () => {
   const navigate = useNavigate();
   return (
-    <div className="hero-card">
+    <div 
+      className="hero-card"
+      style={{ backgroundImage: `url(${fundoFilme})` }}
+    >
       <div className="hero-content">
         <div className="hero-left">
           <h1>Crie, edite e favorite<br/>seus filmes com o<br/>CineComp</h1>

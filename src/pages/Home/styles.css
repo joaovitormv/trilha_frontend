@@ -1,4 +1,35 @@
+
 .home-main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  width: 100%;
+  flex: 1;
+  min-height: 75vh; /* Garante que o contêiner ocupe a maior parte da tela verticalmente, centralizando o card */
+}
+
+/* --- ESTILOS DESKTOP - 1 (VISITANTE) --- */
+.hero-card {
+  width: 100%;
+  max-width: 1000px; /* Aumentado de 800px para deixar mais largo */
+  height: 550px;     /* Aumentado de 450px para deixar mais alto */
+  border-radius: 24px;
+  margin: 0 auto;
+  background-size: cover;
+  background-position: center 20%; /* O '20%' ajuda a enquadrar melhor o rosto na imagem */
+  background-color: #111111;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+.hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  /* Escurece suavemente o fundo para destacar os textos */
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1;.home-main-content {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,7 +44,6 @@
   max-width: 800px;
   height: 450px;
   border-radius: 24px;
-  background-image: url('/fundo-filme.jpg'); 
   background-size: cover;
   background-position: center;
   background-color: #111111;
@@ -85,7 +115,209 @@
   max-width: 960px;
   min-height: 480px;
   border-radius: 24px;
-  background-image: url('/fundo-filme.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-color: #0a0a0a;
+  position: relative;
+  overflow: hidden;
+  padding: 40px 50px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  margin: 0 auto;
+}
+
+.dashboard-container::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 1;
+}
+
+.dashboard-top,
+.dashboard-bottom {
+  position: relative;
+  z-index: 2;
+}
+
+.dashboard-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.welcome-user {
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin: 0;
+  color: #ffffff;
+}
+
+.dashboard-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 28px;
+}
+
+.total-movies-text {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0;
+}
+
+.latest-movies-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 0 0 16px 0;
+  color: #ffffff;
+}
+
+.latest-movies-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.latest-movie-card {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  background-color: #d9d9d9;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.latest-movie-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(106, 13, 173, 0.5);
+}
+
+.latest-movie-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.latest-no-poster {
+  width: 100%;
+  height: 100%;
+  background-color: #d9d9d9;
+  color: #222222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.dashboard-status {
+  color: #cccccc;
+  font-size: 1rem;
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 768px) {
+  .hero-card {
+    height: auto;
+    min-height: 500px;
+  }
+  .hero-content {
+    flex-direction: column;
+    padding: 30px;
+    gap: 40px;
+  }
+  .hero-right {
+    justify-content: flex-end;
+  }
+  .action-box.align-center {
+    align-items: flex-start;
+  }
+
+  .dashboard-container {
+    padding: 30px 20px;
+  }
+  .dashboard-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .dashboard-actions {
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .latest-movies-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  padding: 48px 56px;
+  box-sizing: border-box;
+}
+
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  max-width: 320px;
+}
+
+.hero-left h1 {
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+  color: #ffffff;
+}
+
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+.action-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.action-box.align-center {
+  align-items: center;
+}
+
+.action-box p {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 0;
+  color: #ffffff;
+}
+
+/* --- ESTILOS DESKTOP - 2 (DASHBOARD LOGADO) --- */
+.dashboard-container {
+  width: 100%;
+  max-width: 960px;
+  min-height: 480px;
+  border-radius: 28px;
+  background-image: url('../../assets/fundo-filme.jpg');
   background-size: cover;
   background-position: center top;
   background-color: #0a0a0a;

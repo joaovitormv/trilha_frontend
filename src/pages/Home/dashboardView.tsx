@@ -7,6 +7,7 @@ import type { User } from '../../api/types/user.types';
 import { PosterSkeleton } from '../../components/Skeleton';
 import { Modal } from '../../components/Modal';
 import { getFriendlyApiError, type FriendlyError } from '../../api/utils/errorHandler';
+import fundoFilme from '../../assets/fundo-filme.png';
 
 export const DashboardView = ({ user }: { user: User | null }) => {
   const navigate = useNavigate();
@@ -29,11 +30,13 @@ export const DashboardView = ({ user }: { user: User | null }) => {
     fetchMovies();
   }, []);
 
-  // Pega os últimos 5 filmes adicionados (do mais recente para o mais antigo)
   const latestMovies = [...movies].slice(-5).reverse();
 
   return (
-    <div className="dashboard-container">
+    <div 
+      className="dashboard-container"
+      style={{ backgroundImage: `url(${fundoFilme})` }}
+    >
       <div className="dashboard-top">
         <h2 className="welcome-user">
           Seja bem-vindo, {user?.name || 'usuário'}
