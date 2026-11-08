@@ -4,8 +4,7 @@ const TOKEN_KEY = '@CineComp:token';
 const USER_KEY = '@CineComp:user';
 
 // Único ponto da aplicação que conhece as chaves do localStorage.
-// Componentes devem usar o AuthContext (useAuth); o axiosClient usa estas funções
-// porque roda fora da árvore do React.
+
 
 export const getStoredToken = (): string | null => localStorage.getItem(TOKEN_KEY);
 

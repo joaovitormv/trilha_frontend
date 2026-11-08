@@ -11,6 +11,7 @@ import { CreateMovie } from './pages/MovieCreate';
 import { Profile } from './pages/Profile';
 import { Login } from './pages/Login';
 import { Cadastro } from './pages/Cadastro';
+import { Credits } from './pages/Credits';
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
       { path: '/', element: <Home /> },
       { path: '/filmes', element: <Catalog /> },
       { path: '/filmes/:id', element: <MovieDetails /> },
+      { path: '/creditos', element: <Credits /> },
 
       // Rotas exclusivas para visitantes
       {
@@ -45,6 +47,7 @@ export const router = createBrowserRouter([
           { path: '/perfil', element: <Profile /> },
         ],
       },
+      
     ],
   },
 ]);

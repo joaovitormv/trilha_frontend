@@ -1,4 +1,3 @@
-import React from 'react';
 import './styles.css';
 
 export const Footer = () => {
@@ -7,11 +6,11 @@ export const Footer = () => {
       <div className="footer-content">
         
         <div className="footer-links">
-          <a href="/sobre">Sobre Nós</a>
-          <a href="/termos">Termos</a>
-          <a href="/privacidade">Privacidade</a>
-          <a href="/ajuda">Ajuda</a>
-          <a href="/contato">Contato</a>
+          <a href="/Creditos">Sobre Nós</a>
+          <a href="/Creditos">Termos</a>
+          <a href="/Creditos">Privacidade</a>
+          <a href="/Creditos">Ajuda</a>
+          <a href="/Creditos">Contato</a>
         </div>
 
         <div className="footer-social-section">

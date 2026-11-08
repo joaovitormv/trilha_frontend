@@ -1,4 +1,3 @@
-// src/api/utils/errorHandler.ts
 import axios from 'axios';
 
 export interface FriendlyError {

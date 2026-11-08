@@ -1,90 +1,131 @@
-# 🎬 CineComp - Trilha Trainee Frontend Comp Júnior
+# CineComp - Trilha Trainee Frontend Comp Júnior
 
-O CineComp é uma aplicação web moderna e responsiva desenvolvida para a gestão e visualização de um catálogo de filmes. Este projeto faz parte do desafio da **Trilha Trainee de Frontend da Comp Júnior**, com foco em desenvolver uma arquitetura robusta, escalável e tipada, entregando uma excelente experiência de usuário (UX/UI) com um design *Dark Mode*.
+O CineComp é uma aplicação web moderna e responsiva para gestão e visualização de um catálogo de filmes. O projeto faz parte do desafio da **Trilha Trainee de Frontend da Comp Júnior**, com foco em uma arquitetura robusta, escalável e tipada, e uma boa experiência de usuário (UX/UI) com design *Dark Mode*.
 
-## ✨ Funcionalidades
+## Funcionalidades
 
-* **Catálogo de Filmes**: Listagem completa de filmes com paginação dinâmica no frontend.
-* **Autenticação Segura**: Sistema de Login e Registro com persistência de sessão via JWT (`localStorage`).
-* **Gestão de Estado e Rotas**: Navegação fluida do tipo SPA (*Single Page Application*) utilizando React Router DOM.
-* **Design Responsivo**: Interface adaptável para dispositivos móveis, tablets e desktops (com layout *Split-Screen* na tela de login).
-* **Integração de API**: Consumo assíncrono de API RESTful com interceptação de erros e injeção automática de tokens via Axios.
+* **Catálogo de Filmes**: listagem paginada com busca, filtros (gênero, diretor, ano, nota mínima) e ordenação, com *skeletons* durante o carregamento.
+* **CRUD de Filmes**: cadastro, visualização, edição e exclusão, com validação centralizada (ano entre 1888 e 2100, nota de 0 a 10).
+* **Favoritos**: usuários autenticados favoritam filmes e acompanham a própria lista.
+* **Perfil**: edição de nome, e-mail e senha da conta.
+* **Autenticação**: login e cadastro com JWT, sessão compartilhada via `AuthContext` e logout automático quando a API responde 401.
+* **Home dinâmica**: visitantes veem uma landing page; usuários logados veem um dashboard com os 5 filmes mais recentes e o total do catálogo.
+* **Design Responsivo**: layouts para celular, tablet e desktop, com *Split-Screen* nas telas de login e cadastro.
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
-* **Frontend**: React 18, Vite
+* **Frontend**: React 19, Vite
 * **Linguagem**: TypeScript
 * **Roteamento**: React Router DOM
 * **Requisições HTTP**: Axios
-* **Estilização**: CSS puro (com arquitetura *Folder-as-Component*)
+* **Ícones**: Lucide React
+* **Estilização**: CSS puro, com variáveis globais e padrão *Folder-as-Component*
 
-## 🔗 Backend (API)
+## Backend (API)
 
-Este frontend foi desenvolvido para consumir a API RESTful construída no projeto backend oficial da trilha. Para que a aplicação funcione corretamente, é necessário rodar a API localmente.
+Este frontend consome a API RESTful do projeto backend oficial da trilha, que precisa estar rodando localmente.
 
 * **Repositório da API:** [backend-cinecomp-2026-2](https://github.com/jpedroreiss/backend-cinecomp-2026-2.git)
 
-## 📂 Arquitetura do Projeto
-
-O projeto segue rigorosamente o padrão **Folder-as-Component**, garantindo um encapsulamento perfeito de lógica e estilo para cada tela e componente.
+## Arquitetura do Projeto
 
 ```text
 src/
 ├── api/
-│   ├── config/        # Configuração do Axios e Interceptors globais
-│   ├── services/      # Endpoints da API (authService, movieService)
-│   └── types/         # Interfaces e Tipagens (TypeScript)
-├── components/
-│   ├── BaseLayout/    # Layout estrutural base (Header, Footer e Outlet)
-│   ├── Button/        # Componentes de UI reutilizáveis
-│   ├── Footer/
-│   ├── Header/
-│   └── Pagination/    # Componente avançado de paginação (UI)
+│   ├── config/        # axiosClient (interceptors) e session (token/usuário no localStorage)
+│   ├── services/      # auth, movie, favorite e user services
+│   ├── types/         # Interfaces e tipagens
+│   └── utils/         # errorHandler (mensagens de erro amigáveis)
+├── components/        # Header, Footer, Layout, Button, Modal, Spinner, Skeleton,
+│                      # Pagination, FilterBar, AuthLayout, PrivateRoute e
+│                      # MovieForm (formulário compartilhado de criar/editar)
+├── constants/         # genres.ts (lista única de gêneros aceitos pela API)
+├── contexts/          # AuthContext e AuthProvider
+├── hooks/             # useAuth, useFeedbackModal, useMovies e useMovie
 ├── pages/
-│   ├── Catalog/       # Tela principal do catálogo de filmes
-│   ├── Home/          # Landing page (Hero Banner)
-│   ├── Login/         # Tela de autenticação e acesso
-│   └── Register/      # Tela de criação de nova conta
-├── routes.tsx         # Configuração centralizada das rotas da aplicação
-├── App.tsx            # Ponto de entrada do Router Provider
-└── main.tsx           # Ponto de montagem raiz do React
+│   ├── Home/          # Landing (visitante) e dashboard (logado)
+│   ├── Filmes/        # Catálogo com filtros e paginação
+│   ├── MovieDetails/  # Detalhes, edição e exclusão
+│   ├── MovieCreate/   # Cadastro de filme
+│   ├── Favorites/     # Filmes favoritados
+│   ├── Profile/       # Perfil do usuário
+│   ├── Login/
+│   └── Cadastro/
+├── utils/             # validateMovie (regras de validação dos filmes)
+├── index.css          # Variáveis globais (:root), reset e botão .back-btn
+├── routes.tsx         # Rotas (públicas, só visitantes e protegidas)
+├── App.tsx            # RouterProvider
+└── main.tsx           # Montagem raiz do React
 ```
 
-## 🚀 Instalação e Execução
+### Rotas
+
+| Rota | Acesso |
+|---|---|
+| `/`, `/filmes`, `/filmes/:id` | Públicas |
+| `/login`, `/cadastro` | Somente visitantes |
+| `/favoritos`, `/filmes/novo`, `/perfil` | Somente logados |
+
+## Estilização e Responsividade
+
+* As cores ficam em variáveis no `:root` de `src/index.css` (`--color-primary`, `--color-surface`, `--color-border`, `--color-text`, etc.). Use-as em vez de valores fixos.
+* Os breakpoints são padronizados em **480px**, **768px** e **1024px**, sempre na sintaxe de range, para não deixar "buracos" entre as faixas:
+
+```css
+@media (width <= 1024px) { /* desktop pequeno e abaixo */ }
+@media (768px < width <= 1024px) { /* só tablet horizontal */ }
+@media (width <= 768px) { /* tablet vertical e abaixo */ }
+@media (width <= 480px) { /* celulares */ }
+```
+
+## Instalação e Execução
 
 ### Pré-requisitos
-* [Node.js](https://nodejs.org/) (versão 16 ou superior)
-* npm ou yarn
-* Backend da API rodando localmente (normalmente na porta `3001`).
 
-### Passos para rodar o projeto
+* [Node.js](https://nodejs.org/) 20.19+ ou 22.12+ (exigido pelo Vite 8)
+* npm
+* Backend da API rodando localmente (normalmente na porta `3001`)
 
-1. Clone este repositório:
+### Passos
+
+1. Clone o repositório:
    ```bash
    git clone https://github.com/joaovitormv/trilha_frontend.git
-   ```
-2. Acesse a pasta do projeto:
-   ```bash
    cd trilha_frontend
    ```
-3. Instale as dependências:
+2. Instale as dependências:
    ```bash
    npm install
    ```
-4. Configure as variáveis de ambiente:
-   Crie um arquivo chamado `.env.local` na raiz do projeto e adicione a seguinte variável apontando para a sua API rodando localmente:
+3. Crie o arquivo `.env` na raiz apontando para a sua API:
    ```env
    VITE_API_URL=http://localhost:3001
    ```
-5. Inicie o servidor de desenvolvimento:
+4. Inicie o servidor de desenvolvimento:
    ```bash
    npm run dev
    ```
-6. Abra o navegador em `http://localhost:5173`.
+5. Abra `http://localhost:5173`.
 
-## 🔐 Autenticação e Interceptores
+### Scripts
 
-O frontend se comunica com a API utilizando uma instância centralizada do Axios (`axiosClient`). 
-* As requisições que falham por erro de autenticação (401) são tratadas para fornecer feedback visual ao usuário.
-* Após um login bem-sucedido, o *Token JWT* é salvo de forma segura no `localStorage` do navegador sob a chave `@CineComp:token`.
-* Um **Interceptor de Requisição** captura todas as chamadas feitas para o backend e injeta automaticamente o cabeçalho `Authorization: Bearer <token>`, permitindo acesso transparente às rotas protegidas.
+| Comando | Descrição |
+|---|---|
+| `npm run dev` | Servidor de desenvolvimento |
+| `npm run build` | Checagem de tipos (`tsc -b`) e build de produção |
+| `npm run lint` | ESLint |
+| `npm run preview` | Pré-visualiza o build de produção |
+
+## Autenticação e Interceptors
+
+* O estado de autenticação fica no `AuthProvider`, acessado pelo hook `useAuth()` (`user`, `isAuthenticated`, `login`, `logout`, `updateUser`). Os componentes não leem o `localStorage` diretamente.
+* O `localStorage` (chaves `@CineComp:token` e `@CineComp:user`) só é acessado em `src/api/config/session.ts`, porque o `axiosClient` roda fora da árvore do React.
+* Um **interceptor de requisição** injeta `Authorization: Bearer <token>` em todas as chamadas.
+* Um **interceptor de resposta** trata o **401 de requisições que enviaram token**: limpa a sessão e redireciona para `/login`. Um login com senha errada não dispara o logout, então o erro "credenciais inválidas" continua aparecendo na tela de Login.
+
+## Padrões do Projeto
+
+* **Hooks de dados** (`useMovies`, `useMovie`): cuidam de *loading*, erro e cancelamento de requisições, sem repetir `try/catch` nas páginas.
+* **`useFeedbackModal`**: padroniza os modais de sucesso e erro (`variant`, título e mensagem).
+* **`MovieForm`**: um único formulário para criar e editar filmes, com a validação em `utils/validateMovie.ts`.
+* **`constants/genres.ts`**: fonte única dos gêneros aceitos pela API.

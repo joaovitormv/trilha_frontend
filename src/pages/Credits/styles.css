@@ -1,0 +1,229 @@
+.credits-page {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  /* Usando 'vw' (viewport width) o padding se adapta ao tamanho da tela,
+     mas permite que o conteúdo ocupe todo o resto do body livremente */
+  padding: 40px 4vw 80px; 
+  box-sizing: border-box;
+}
+
+.credits-wrapper {
+  width: 100%;
+  max-width: none; /* <-- O segredo: removemos qualquer limite de largura! */
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.credits-top-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted, #888);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 8px 0;
+  transition: color 0.2s ease;
+}
+
+.back-btn:hover {
+  color: var(--color-text, #fff);
+}
+
+/* TÍTULO PRINCIPAL */
+.credits-hero-card {
+  text-align: center;
+  padding: 20px 0;
+  width: 100%;
+}
+
+.credits-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #8a2be2;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.credits-main-title {
+  color: var(--color-text);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.credits-subtitle {
+  /* Aumentei para não ficar espremido no meio da tela gigante */
+  max-width: 900px;
+  margin: 0 auto;
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* COLUNAS SIMPLES OCUPANDO A TELA TODA */
+.credits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6vw; /* Espaçamento fluido entre as colunas */
+  padding: 48px 0;
+  width: 100%;
+  border-top: 1px solid var(--color-border-subtle, rgba(255, 255, 255, 0.05));
+  border-bottom: 1px solid var(--color-border-subtle, rgba(255, 255, 255, 0.05));
+}
+
+.credits-info-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.card-icon-box {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: rgba(138, 43, 226, 0.08); 
+  border-radius: 12px;
+}
+
+.credits-info-card h2 {
+  color: var(--color-text);
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+}
+
+.credits-info-card p {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.credits-info-card strong {
+  color: var(--color-text);
+}
+
+/* FICHA TÉCNICA E RODAPÉ */
+.credits-roll-card {
+  padding: 0;
+  width: 100%;
+}
+
+.credits-roll-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.credits-roll-header h2 {
+  color: var(--color-text);
+  font-size: 1.4rem;
+}
+
+.credits-roll-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.credits-roll-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--color-border-subtle, rgba(255, 255, 255, 0.05));
+}
+
+.credits-roll-item:last-child {
+  border-bottom: none;
+}
+
+.roll-role {
+  color: var(--color-text-subtle, #999);
+  font-size: 1rem;
+}
+
+.roll-name {
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* LINKS DO GITHUB */
+.credits-links-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-top: 32px;
+  padding-top: 24px;
+}
+
+.credits-ext-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-text-muted, #aaa);
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.credits-ext-link:hover {
+  color: #8a2be2;
+}
+
+/* ==========================================
+   RESPONSIVIDADE 
+   ========================================== */
+
+@media (width <= 1024px) {
+  .credits-grid {
+    gap: 4vw;
+  }
+}
+
+@media (width <= 768px) {
+  .credits-page {
+    /* Menos padding nas laterais no mobile */
+    padding: 24px 16px 64px;
+  }
+  
+  .credits-main-title {
+    font-size: 2rem;
+  }
+  
+  .credits-grid {
+    /* Empilha as colunas */
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 40px 0;
+  }
+
+  .credits-roll-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .credits-links-footer {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

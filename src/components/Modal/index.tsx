@@ -1,4 +1,3 @@
-import React from 'react';
 import { AlertTriangle, CheckCircle, HelpCircle } from 'lucide-react';
 import './styles.css';
 
