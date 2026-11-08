@@ -16,7 +16,7 @@ export const Login = () => {
   const [apiError, setApiError] = useState<FriendlyError | null>(null);
 
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, sessionExpired, dismissSessionExpired } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,6 +98,15 @@ export const Login = () => {
         title={apiError?.title || ''}
         message={apiError?.message || ''}
         onClose={() => setApiError(null)}
+      />
+
+      {/* Aparece quando a API encerra a sessão (401) e o usuário é levado de volta ao login */}
+      <Modal
+        isOpen={sessionExpired}
+        variant="error"
+        title="Sessão Expirada"
+        message="Sua sessão expirou. Faça login novamente para continuar."
+        onClose={dismissSessionExpired}
       />
     </>
   );

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Save, X, Film } from 'lucide-react';
+import { PosterImage } from '../../../components/PosterImage';
 import { movieService } from '../../../api/services/movieService';
 import type { Movie, MoviePayload } from '../../../api/types/movie.types';
 import { Button } from '../../../components/Button';
@@ -37,13 +38,16 @@ export const MovieEditForm = ({ movie, onCancel, onSuccess }: Props) => {
     <>
       <div className="details-card">
         <div className="details-poster-column">
-          {posterUrl ? (
-            <img src={posterUrl} alt="Pré-visualização" className="details-poster-img" />
-          ) : (
-            <div className="details-no-poster">
-              <Film size={48} color="#555" /><span>Sem Pôster</span>
-            </div>
-          )}
+          <PosterImage
+            src={posterUrl}
+            alt="Pré-visualização"
+            className="details-poster-img"
+            fallback={
+              <div className="details-no-poster">
+                <Film size={48} color="#555" /><span>Sem Pôster</span>
+              </div>
+            }
+          />
         </div>
 
         <div className="details-info-column">

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, Pencil, Trash2, Star, Calendar, User, Film, Clock } from 'lucide-react';
+import { PosterImage } from '../../../components/PosterImage';
 import { favoriteService } from '../../../api/services/favoriteService';
 import type { Movie } from '../../../api/types/movie.types';
 import { getFriendlyApiError, type FriendlyError } from '../../../api/utils/errorHandler';
@@ -72,14 +73,17 @@ export const MovieReadView = ({ movie, onEdit, onDelete }: Props) => {
     <>
       <div className="details-card">
         <div className="details-poster-column">
-          {movie.posterUrl ? (
-            <img src={movie.posterUrl} alt={movie.title} className="details-poster-img" />
-          ) : (
-            <div className="details-no-poster">
-              <Film size={48} color="#555" />
-              <span>Sem Pôster</span>
-            </div>
-          )}
+          <PosterImage
+            src={movie.posterUrl}
+            alt={movie.title}
+            className="details-poster-img"
+            fallback={
+              <div className="details-no-poster">
+                <Film size={48} color="#555" />
+                <span>Sem Pôster</span>
+              </div>
+            }
+          />
         </div>
 
         <div className="details-info-column">

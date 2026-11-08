@@ -29,12 +29,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     user: getStoredUser(),
   }));
 
+  const [sessionExpired, setSessionExpired] = useState(false);
+
   const login = useCallback(async (credentials: LoginPayload) => {
     const response = await authService.login(credentials);
     const { token, user } = response.data;
 
     saveSession(token, user);
     setSession({ token, user });
+    setSessionExpired(false);
   }, []);
 
   const logout = useCallback(() => {
@@ -47,10 +50,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setSession((current) => ({ ...current, user }));
   }, []);
 
+  const dismissSessionExpired = useCallback(() => setSessionExpired(false), []);
+
   // 401 vindo da API: o interceptor já limpou o localStorage, aqui sincronizamos o estado e redirecionamos.
   useEffect(() => {
     setUnauthorizedHandler(() => {
       setSession(EMPTY_SESSION);
+      setSessionExpired(true);
       navigate('/login', { replace: true });
     });
 
@@ -61,11 +67,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     () => ({
       user: session.user,
       isAuthenticated: Boolean(session.token),
+      sessionExpired,
       login,
       logout,
       updateUser,
+      dismissSessionExpired,
     }),
-    [session, login, logout, updateUser],
+    [session, sessionExpired, login, logout, updateUser, dismissSessionExpired],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

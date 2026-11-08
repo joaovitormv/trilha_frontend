@@ -1,0 +1,113 @@
+.not-found-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+.not-found-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 520px;
+  padding: 48px 40px;
+  box-sizing: border-box;
+  text-align: center;
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border-strong);
+  border-radius: 24px;
+}
+
+.not-found-icon {
+  color: var(--color-primary-hover);
+  margin-bottom: 8px;
+}
+
+.not-found-code {
+  margin: 0;
+  font-size: 5rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 4px;
+  color: var(--color-primary-hover);
+}
+
+.not-found-title {
+  margin: 12px 0 0;
+  font-size: 1.6rem;
+  color: var(--color-text);
+}
+
+.not-found-text {
+  margin: 14px 0 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.not-found-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 32px;
+}
+
+.not-found-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 22px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.not-found-btn-primary {
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  color: var(--color-white);
+}
+
+.not-found-btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.not-found-btn-secondary {
+  background-color: transparent;
+  border: 1px solid var(--color-border-input);
+  color: var(--color-text-soft);
+}
+
+.not-found-btn-secondary:hover {
+  border-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+@media (width <= 768px) {
+  .not-found-card {
+    padding: 36px 24px;
+  }
+}
+
+@media (width <= 480px) {
+  .not-found-code {
+    font-size: 4rem;
+  }
+  .not-found-title {
+    font-size: 1.35rem;
+  }
+  .not-found-btn {
+    width: 100%;
+  }
+}

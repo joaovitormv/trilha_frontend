@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HeartOff, Star, Trash2 } from 'lucide-react';
+import { PosterImage } from '../../components/PosterImage';
 import { favoriteService } from '../../api/services/favoriteService';
 import type { Movie } from '../../api/types/movie.types';
 import { getFriendlyApiError, type FriendlyError } from '../../api/utils/errorHandler';
@@ -87,11 +88,12 @@ export const Favorites = () => {
                 <Trash2 size={16} />
               </button>
 
-              {movie.posterUrl ? (
-                <img src={movie.posterUrl} alt={movie.title} className="movie-poster" />
-              ) : (
-                <div className="no-poster">Sem Pôster</div>
-              )}
+              <PosterImage
+                src={movie.posterUrl}
+                alt={movie.title}
+                className="movie-poster"
+                fallback={<div className="no-poster">Sem Pôster</div>}
+              />
 
               <h3 className="movie-title">{movie.title}</h3>
               <p className="movie-year">

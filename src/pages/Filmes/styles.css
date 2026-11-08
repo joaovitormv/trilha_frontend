@@ -148,9 +148,12 @@
 .movie-card-simple {
   min-width: 0;
 }
-.movie-poster,
-.no-poster {
+.movie-poster {
   display: block;
+  max-width: 100%;
+}
+/* sem `display: block` aqui: o .no-poster precisa do flex para centralizar o texto */
+.no-poster {
   max-width: 100%;
 }
 .movie-year {

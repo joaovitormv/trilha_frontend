@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Star, Plus } from 'lucide-react';
+import { PosterImage } from '../../components/PosterImage';
 import type { GetMoviesParams } from '../../api/services/movieService';
 import { Pagination } from '../../components/Pagination';
 import { Modal } from '../../components/Modal';
@@ -92,11 +93,12 @@ export const Catalog = () => {
               onClick={() => navigate(`/filmes/${movie.id}`)}
               style={{ cursor: 'pointer' }}
             >
-              {movie.posterUrl ? (
-                <img src={movie.posterUrl} alt={movie.title} className="movie-poster" />
-              ) : (
-                <div className="no-poster">Sem Pôster</div>
-              )}
+              <PosterImage
+                src={movie.posterUrl}
+                alt={movie.title}
+                className="movie-poster"
+                fallback={<div className="no-poster">Sem Pôster</div>}
+              />
               <h3 className="movie-title">{movie.title}</h3>
               <p className="movie-year">
                 {movie.releaseYear} • <Star size={13} color="#f5c518" fill="#f5c518" /> {movie.rating}

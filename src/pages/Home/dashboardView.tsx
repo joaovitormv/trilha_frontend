@@ -4,6 +4,7 @@ import type { GetMoviesParams } from '../../api/services/movieService';
 import type { User } from '../../api/types/user.types';
 import { PosterSkeleton } from '../../components/Skeleton';
 import { Modal } from '../../components/Modal';
+import { PosterImage } from '../../components/PosterImage';
 import { useMovies } from '../../hooks/useMovies';
 import fundoFilme from '../../assets/fundo-filme.png';
 
@@ -53,11 +54,12 @@ export const DashboardView = ({ user }: { user: User | null }) => {
                 onClick={() => navigate(`/filmes/${movie.id}`)}
                 title={movie.title}
               >
-                {movie.posterUrl ? (
-                  <img src={movie.posterUrl} alt={movie.title} className="latest-movie-poster" />
-                ) : (
-                  <div className="latest-no-poster">{movie.title}</div>
-                )}
+                <PosterImage
+                  src={movie.posterUrl}
+                  alt={movie.title}
+                  className="latest-movie-poster"
+                  fallback={<div className="latest-no-poster">{movie.title}</div>}
+                />
               </div>
             ))}
           </div>

@@ -12,6 +12,7 @@ import { Profile } from './pages/Profile';
 import { Login } from './pages/Login';
 import { Cadastro } from './pages/Cadastro';
 import { Credits } from './pages/Credits';
+import { NotFound } from './pages/NotFound';
 
 export const router = createBrowserRouter([
   {
@@ -47,7 +48,9 @@ export const router = createBrowserRouter([
           { path: '/perfil', element: <Profile /> },
         ],
       },
-      
+
+      // Qualquer outra URL: página 404 (dentro do layout, com Header e Footer)
+      { path: '*', element: <NotFound /> },
     ],
   },
 ]);
