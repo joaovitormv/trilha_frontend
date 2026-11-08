@@ -1,7 +1,7 @@
-import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
 import { BaseLayout } from './components/Layout';
+import { AuthProvider } from './contexts/AuthProvider';
 import { PrivateRoute, PublicOnlyRoute } from './components/PrivateRoute';
 import { Home } from './pages/Home';
 import { Catalog } from './pages/Filmes';
@@ -15,7 +15,12 @@ import { Cadastro } from './pages/Cadastro';
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <BaseLayout />,
+    // AuthProvider fica dentro do roteador para poder redirecionar ao receber 401
+    element: (
+      <AuthProvider>
+        <BaseLayout />
+      </AuthProvider>
+    ),
     children: [
       // Rotas Públicas
       { path: '/', element: <Home /> },

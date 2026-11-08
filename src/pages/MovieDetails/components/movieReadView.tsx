@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, Pencil, Trash2, Star, Calendar, User, Film, Clock } from 'lucide-react';
 import { favoriteService } from '../../../api/services/favoriteService';
 import type { Movie } from '../../../api/types/movie.types';
 import { getFriendlyApiError, type FriendlyError } from '../../../api/utils/errorHandler';
 import { Modal } from '../../../components/Modal';
+import { useAuth } from '../../../hooks/useAuth';
 
 interface Props {
   movie: Movie;
@@ -14,7 +15,7 @@ interface Props {
 
 export const MovieReadView = ({ movie, onEdit, onDelete }: Props) => {
   const navigate = useNavigate();
-  const isAuthenticated = Boolean(localStorage.getItem('@CineComp:token'));
+  const { isAuthenticated } = useAuth();
 
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isFavoriteLoading, setIsFavoriteLoading] = useState<boolean>(false);

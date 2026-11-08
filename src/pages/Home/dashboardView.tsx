@@ -1,36 +1,20 @@
-import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/Button';
-import { movieService } from '../../api/services/movieService';
-import type { Movie } from '../../api/types/movie.types';
+import type { GetMoviesParams } from '../../api/services/movieService';
 import type { User } from '../../api/types/user.types';
 import { PosterSkeleton } from '../../components/Skeleton';
 import { Modal } from '../../components/Modal';
-import { getFriendlyApiError, type FriendlyError } from '../../api/utils/errorHandler';
+import { useMovies } from '../../hooks/useMovies';
 import fundoFilme from '../../assets/fundo-filme.png';
+
+// A API já devolve só os 5 mais recentes; o total vem da paginação (não do tamanho da página)
+const LATEST_MOVIES_PARAMS: GetMoviesParams = { limit: 5, sortBy: 'createdAt', order: 'desc' };
 
 export const DashboardView = ({ user }: { user: User | null }) => {
   const navigate = useNavigate();
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [apiError, setApiError] = useState<FriendlyError | null>(null);
-
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        setIsLoading(true);
-        const resposta = await movieService.getAll();
-        setMovies(Array.isArray(resposta) ? resposta : resposta.data || resposta.rows || []);
-      } catch (err) {
-        setApiError(getFriendlyApiError(err));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchMovies();
-  }, []);
-
-  const latestMovies = [...movies].slice(-5).reverse();
+  const { movies: latestMovies, pagination, isLoading, error: apiError, clearError } =
+    useMovies(LATEST_MOVIES_PARAMS);
+  const totalMovies = pagination?.total ?? 0;
 
   return (
     <div 
@@ -46,7 +30,7 @@ export const DashboardView = ({ user }: { user: User | null }) => {
             Adicionar Filme
           </Button>
           <p className="total-movies-text">
-            Total de filmes adicionados: {movies.length}
+            Total de filmes adicionados: {totalMovies}
           </p>
         </div>
       </div>
@@ -85,7 +69,7 @@ export const DashboardView = ({ user }: { user: User | null }) => {
         variant="error"
         title={apiError?.title || ''}
         message={apiError?.message || ''}
-        onClose={() => setApiError(null)}
+        onClose={clearError}
       />
     </div>
   );

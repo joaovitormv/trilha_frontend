@@ -2,22 +2,17 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Image as ImageIcon, AlertCircle, Check } from 'lucide-react';
 import { movieService } from '../../api/services/movieService';
-import type { MoviePayload } from '../../api/types/movie.types';
-import { getFriendlyApiError } from '../../api/utils/errorHandler';
 import { Button } from '../../components/Button';
-import { Modal, type ModalVariant } from '../../components/Modal';
+import { Modal } from '../../components/Modal';
+import { GENRE_OPTIONS } from '../../constants/genres';
+import { useFeedbackModal } from '../../hooks/useFeedbackModal';
+import {
+  validateMovie,
+  MIN_RELEASE_YEAR,
+  MAX_RELEASE_YEAR,
+  type MovieFormData,
+} from '../../utils/validateMovie';
 import './styles.css';
-
-const GENRE_OPTIONS = [
-  { label: 'Ficção Científica', value: 'Ficcao Cientifica' },
-  { label: 'Ação', value: 'Acao' },
-  { label: 'Drama', value: 'Drama' },
-  { label: 'Comédia', value: 'Comedia' },
-  { label: 'Aventura', value: 'Aventura' },
-  { label: 'Suspense', value: 'Suspense' },
-  { label: 'Terror', value: 'Terror' },
-  { label: 'Animação', value: 'Animacao' },
-];
 
 export const CreateMovie = () => {
   const navigate = useNavigate();
@@ -25,7 +20,7 @@ export const CreateMovie = () => {
   const [imageLoadError, setImageLoadError] = useState(false);
   const [createdMovieId, setCreatedMovieId] = useState<number | null>(null);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<MovieFormData>({
     title: '',
     releaseYear: '',
     rating: '',
@@ -35,17 +30,7 @@ export const CreateMovie = () => {
     description: '',
   });
 
-  const [modal, setModal] = useState<{
-    isOpen: boolean;
-    variant: ModalVariant;
-    title: string;
-    message: string;
-  }>({
-    isOpen: false,
-    variant: 'error',
-    title: '',
-    message: '',
-  });
+  const { modal, showError, showSuccess, showApiError, closeModal } = useFeedbackModal();
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -60,82 +45,29 @@ export const CreateMovie = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (
-      !formData.title.trim() ||
-      !formData.releaseYear ||
-      formData.rating === '' ||
-      !formData.genre ||
-      !formData.director.trim() ||
-      !formData.description.trim()
-    ) {
-      setModal({
-        isOpen: true,
-        variant: 'error',
-        title: 'Campos Obrigatórios',
-        message: 'Preencha todos os campos obrigatórios para cadastrar o filme.',
-      });
+    const validation = validateMovie(formData);
+    if (!validation.ok) {
+      showError(validation.error.title, validation.error.message);
       return;
     }
 
-    const parsedYear = Number(formData.releaseYear);
-    const parsedRating = Number(formData.rating);
-
-    if (isNaN(parsedYear) || parsedYear < 1888 || parsedYear > 2100) {
-      setModal({
-        isOpen: true,
-        variant: 'error',
-        title: 'Ano Inválido',
-        message: 'Informe um ano de lançamento válido (entre 1888 e 2100).',
-      });
-      return;
-    }
-
-    if (isNaN(parsedRating) || parsedRating < 0 || parsedRating > 10) {
-      setModal({
-        isOpen: true,
-        variant: 'error',
-        title: 'Avaliação Inválida',
-        message: 'A nota do filme deve estar entre 0 e 10.',
-      });
-      return;
-    }
-
-    const payload: MoviePayload = {
-      title: formData.title.trim(),
-      description: formData.description.trim(),
-      genre: formData.genre,
-      director: formData.director.trim(),
-      releaseYear: parsedYear,
-      rating: parsedRating,
-      posterUrl: formData.posterUrl.trim() || undefined,
-    };
+    const { payload } = validation;
 
     try {
       setIsSubmitting(true);
       const created = await movieService.create(payload);
       setCreatedMovieId(created?.id || null);
 
-      setModal({
-        isOpen: true,
-        variant: 'success',
-        title: 'Filme Adicionado!',
-        message: `"${payload.title}" foi cadastrado no catálogo com sucesso.`,
-      });
+      showSuccess('Filme Adicionado!', `"${payload.title}" foi cadastrado no catálogo com sucesso.`);
     } catch (err) {
-      const apiError = getFriendlyApiError(err);
-      setModal({
-        isOpen: true,
-        variant: 'error',
-        title: apiError.title,
-        message: apiError.message,
-      });
+      showApiError(err);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const handleCloseModal = () => {
-    setModal((prev) => ({ ...prev, isOpen: false }));
+    closeModal();
     if (modal.variant === 'success') {
       navigate(createdMovieId ? `/filmes/${createdMovieId}` : '/filmes');
     }
@@ -180,8 +112,8 @@ export const CreateMovie = () => {
                     name="releaseYear"
                     type="number"
                     placeholder="Ex: 2014"
-                    min="1888"
-                    max="2100"
+                    min={MIN_RELEASE_YEAR}
+                    max={MAX_RELEASE_YEAR}
                     value={formData.releaseYear}
                     onChange={handleInputChange}
                     disabled={isSubmitting}
@@ -324,13 +256,7 @@ export const CreateMovie = () => {
         </div>
       </div>
 
-      <Modal
-        isOpen={modal.isOpen}
-        variant={modal.variant}
-        title={modal.title}
-        message={modal.message}
-        onClose={handleCloseModal}
-      />
+      <Modal {...modal} onClose={handleCloseModal} />
     </main>
   );
 };

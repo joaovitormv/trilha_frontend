@@ -1,77 +1,48 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { useState } from 'react';
 import { Star, Plus } from 'lucide-react';
-import { movieService, type GetMoviesParams } from '../../api/services/movieService';
-import type { Movie } from '../../api/types/movie.types';
+import type { GetMoviesParams } from '../../api/services/movieService';
 import { Pagination } from '../../components/Pagination';
-import { getFriendlyApiError, type FriendlyError } from '../../api/utils/errorHandler';
 import { Modal } from '../../components/Modal';
 import { MovieCardSkeleton } from '../../components/Skeleton';
 import { FilterBar, INITIAL_FILTERS, type FilterState } from '../../components/FilterBar';
 import './styles.css';
 import { useNavigate } from 'react-router-dom';
 import {Button} from '../../components/Button';
+import { useAuth } from '../../hooks/useAuth';
+import { useMovies } from '../../hooks/useMovies';
+
+const ITEMS_PER_PAGE = 10;
+const FILTER_DEBOUNCE_MS = 300;
+
+const buildParams = (page: number, filters: FilterState): GetMoviesParams => {
+  const params: GetMoviesParams = {
+    page,
+    limit: ITEMS_PER_PAGE,
+    sortBy: filters.sortBy,
+    order: filters.order,
+  };
+
+  if (filters.search.trim()) params.search = filters.search.trim();
+  if (filters.genre.length > 0) params.genre = filters.genre.join(',');
+  if (filters.director.trim()) params.director = filters.director.trim();
+  if (filters.releaseYear) params.releaseYear = Number(filters.releaseYear);
+  if (filters.minRating) params.minRating = Number(filters.minRating);
+
+  return params;
+};
 
 export const Catalog = () => {
   const navigate = useNavigate();
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [apiError, setApiError] = useState<FriendlyError | null>(null);
-  const isAuthenticated = Boolean(localStorage.getItem('@CineComp:token'));
+  const { isAuthenticated } = useAuth();
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
-  const ITEMS_PER_PAGE = 10;
-
   const [filters, setFilters] = useState<FilterState>(INITIAL_FILTERS);
 
-  const fetchMovies = useCallback(async (page: number, activeFilters: FilterState) => {
-    try {
-      setIsLoading(true);
-      setApiError(null);
-
-      const params: GetMoviesParams = {
-        page,
-        limit: ITEMS_PER_PAGE,
-        sortBy: activeFilters.sortBy,
-        order: activeFilters.order,
-      };
-
-      if (activeFilters.search.trim()) params.search = activeFilters.search.trim();
-      
-      if (activeFilters.genre.length > 0) params.genre = activeFilters.genre.join(',');
-      
-      if (activeFilters.director.trim()) params.director = activeFilters.director.trim();
-      if (activeFilters.releaseYear) params.releaseYear = Number(activeFilters.releaseYear);
-      if (activeFilters.minRating) params.minRating = Number(activeFilters.minRating);
-
-      const response = await movieService.getAll(params);
-
-      if (response && Array.isArray(response.data)) {
-        setMovies(response.data);
-        setTotalPages(response.pagination?.totalPages || 1);
-      } else {
-        setMovies([]);
-        setTotalPages(1);
-      }
-    } catch (err) {
-      setApiError(getFriendlyApiError(err));
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  // ... (mantenha os imports, estados e o fetchMovies intactos)
-
-  // 1. ATUALIZAR O USE EFFECT
-  useEffect(() => {
-    // Liga o esqueleto IMEDIATAMENTE ao mudar de página ou filtro
-    setIsLoading(true); 
-    
-    const timer = setTimeout(() => {
-      fetchMovies(currentPage, filters);
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [currentPage, filters, fetchMovies]);
+  // O esqueleto aparece assim que página/filtro mudam; a requisição sai após o debounce
+  const { movies, pagination, isLoading, error: apiError, clearError } = useMovies(
+    buildParams(currentPage, filters),
+    FILTER_DEBOUNCE_MS,
+  );
+  const totalPages = pagination?.totalPages || 1;
 
   const handleFilterChange = (newFilters: FilterState) => {
     setFilters(newFilters);
@@ -83,7 +54,6 @@ export const Catalog = () => {
     setCurrentPage(1);
   };
 
-  // 2. ATUALIZAR O RETURN
   return (
     <main className="catalog-main-content">
       <FilterBar
@@ -151,7 +121,7 @@ export const Catalog = () => {
         variant="error"
         title={apiError?.title || ''}
         message={apiError?.message || ''}
-        onClose={() => setApiError(null)}
+        onClose={clearError}
       />
     </main>
   );

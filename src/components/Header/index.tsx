@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 import { Modal } from '../Modal';
 import './styles.css';
 import logoImg from '../../assets/logo.png';
 
 export const Header = () => {
-  useLocation();
   const navigate = useNavigate();
+  const { isAuthenticated, logout } = useAuth();
   
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const closeMenu = () => setIsMenuOpen(false);
-  const isAuthenticated = Boolean(localStorage.getItem('@CineComp:token'));
 
   const handleLogout = () => {
-    localStorage.removeItem('@CineComp:token');
-    localStorage.removeItem('@CineComp:user');
+    logout();
     setIsLogoutModalOpen(false);
     navigate('/login');
   };

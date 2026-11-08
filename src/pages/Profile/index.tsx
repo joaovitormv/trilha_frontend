@@ -14,14 +14,16 @@ import {
 } from 'lucide-react';
 import { userService } from '../../api/services/userService';
 import type { User, UpdateProfilePayload } from '../../api/types/user.types';
-import { getFriendlyApiError } from '../../api/utils/errorHandler';
 import { Button } from '../../components/Button';
-import { Modal, type ModalVariant } from '../../components/Modal';
+import { Modal } from '../../components/Modal';
 import { Skeleton } from '../../components/Skeleton';
+import { useAuth } from '../../hooks/useAuth';
+import { useFeedbackModal } from '../../hooks/useFeedbackModal';
 import './styles.css';
 
 export const Profile = () => {
   const navigate = useNavigate();
+  const { updateUser } = useAuth();
 
   const [profile, setProfile] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -35,17 +37,7 @@ export const Profile = () => {
     password: '',
   });
 
-  const [modal, setModal] = useState<{
-    isOpen: boolean;
-    variant: ModalVariant;
-    title: string;
-    message: string;
-  }>({
-    isOpen: false,
-    variant: 'error',
-    title: '',
-    message: '',
-  });
+  const { modal, showError, showSuccess, showApiError, closeModal } = useFeedbackModal();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -59,20 +51,14 @@ export const Profile = () => {
           password: '',
         });
       } catch (err) {
-        const apiError = getFriendlyApiError(err);
-        setModal({
-          isOpen: true,
-          variant: 'error',
-          title: apiError.title,
-          message: apiError.message,
-        });
+        showApiError(err);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchProfile();
-  }, []);
+  }, [showApiError]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -99,12 +85,7 @@ export const Profile = () => {
     e.preventDefault();
 
     if (!formData.name.trim() || !formData.email.trim()) {
-      setModal({
-        isOpen: true,
-        variant: 'error',
-        title: 'Campos Obrigatórios',
-        message: 'O nome e o endereço de e-mail não podem ficar em branco.',
-      });
+      showError('Campos Obrigatórios', 'O nome e o endereço de e-mail não podem ficar em branco.');
       return;
     }
 
@@ -127,24 +108,13 @@ export const Profile = () => {
         password: '',
       });
 
-      localStorage.setItem('@CineComp:user', JSON.stringify(updatedUser));
+      updateUser(updatedUser);
       setIsEditing(false);
       setShowPassword(false);
 
-      setModal({
-        isOpen: true,
-        variant: 'success',
-        title: 'Perfil Atualizado',
-        message: 'Suas informações cadastrais foram salvas com sucesso.',
-      });
+      showSuccess('Perfil Atualizado', 'Suas informações cadastrais foram salvas com sucesso.');
     } catch (err) {
-      const apiError = getFriendlyApiError(err);
-      setModal({
-        isOpen: true,
-        variant: 'error',
-        title: apiError.title,
-        message: apiError.message,
-      });
+      showApiError(err);
     } finally {
       setIsSaving(false);
     }
@@ -319,13 +289,7 @@ export const Profile = () => {
         )}
       </div>
 
-      <Modal
-        isOpen={modal.isOpen}
-        variant={modal.variant}
-        title={modal.title}
-        message={modal.message}
-        onClose={() => setModal((prev) => ({ ...prev, isOpen: false }))}
-      />
+      <Modal {...modal} onClose={closeModal} />
     </main>
   );
 };

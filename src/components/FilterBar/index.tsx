@@ -1,19 +1,11 @@
 import { useState } from 'react';
 import { Search, X, RotateCcw, SlidersHorizontal } from 'lucide-react';
 import type { MovieSortBy, SortOrder } from '../../api/services/movieService';
+import { GENRE_OPTIONS } from '../../constants/genres';
 import './styles.css';
 
-const GENRE_OPTIONS = [
-  { label: 'Todos', value: '' },
-  { label: 'Ficção Científica', value: 'Ficcao Cientifica' },
-  { label: 'Ação', value: 'Acao' },
-  { label: 'Drama', value: 'Drama' },
-  { label: 'Comédia', value: 'Comedia' },
-  { label: 'Aventura', value: 'Aventura' },
-  { label: 'Suspense', value: 'Suspense' },
-  { label: 'Terror', value: 'Terror' },
-  { label: 'Animação', value: 'Animacao' },
-];
+// "Todos" limpa o filtro de gênero; os demais vêm da lista compartilhada
+const GENRE_FILTER_OPTIONS = [{ label: 'Todos', value: '' }, ...GENRE_OPTIONS];
 
 const RATING_OPTIONS = [
   { label: 'Qualquer nota', value: '' },
@@ -112,7 +104,7 @@ export const FilterBar = ({ filters, onFilterChange, onReset }: FilterBarProps) 
       </div>
 
       <div className="genre-pills-row">
-        {GENRE_OPTIONS.map((item) => {
+        {GENRE_FILTER_OPTIONS.map((item) => {
           const isActive =
             item.value === ''
               ? filters.genre.length === 0

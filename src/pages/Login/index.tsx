@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
-import { authService } from '../../api/services/authService';
 import { getFriendlyApiError, type FriendlyError } from '../../api/utils/errorHandler';
 import { AuthLayout } from '../../components/AuthLayout';
 import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
+import { useAuth } from '../../hooks/useAuth';
 import loginBg from '../../assets/loginImg.jpeg'; 
 
 export const Login = () => {
@@ -16,6 +16,7 @@ export const Login = () => {
   const [apiError, setApiError] = useState<FriendlyError | null>(null);
 
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,12 +31,7 @@ export const Login = () => {
 
     try {
       setIsLoading(true);
-      const response = await authService.login({ email, password });
-      const { token, user } = response.data;
-
-      localStorage.setItem('@CineComp:token', token);
-      localStorage.setItem('@CineComp:user', JSON.stringify(user));
-
+      await login({ email, password });
       navigate('/');
     } catch (err) {
       setApiError(getFriendlyApiError(err));

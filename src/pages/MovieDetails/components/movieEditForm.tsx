@@ -1,21 +1,17 @@
 import React, { useState } from 'react';
 import { Save, X, Film } from 'lucide-react';
 import { movieService } from '../../../api/services/movieService';
-import type { Movie, MoviePayload } from '../../../api/types/movie.types';
-import { getFriendlyApiError } from '../../../api/utils/errorHandler';
+import type { Movie } from '../../../api/types/movie.types';
 import { Button } from '../../../components/Button';
 import { Modal } from '../../../components/Modal';
-
-const GENRE_OPTIONS = [
-  { label: 'Ficção Científica', value: 'Ficcao Cientifica' },
-  { label: 'Ação', value: 'Acao' },
-  { label: 'Drama', value: 'Drama' },
-  { label: 'Comédia', value: 'Comedia' },
-  { label: 'Aventura', value: 'Aventura' },
-  { label: 'Suspense', value: 'Suspense' },
-  { label: 'Terror', value: 'Terror' },
-  { label: 'Animação', value: 'Animacao' },
-];
+import { GENRE_OPTIONS } from '../../../constants/genres';
+import { useFeedbackModal } from '../../../hooks/useFeedbackModal';
+import {
+  validateMovie,
+  MIN_RELEASE_YEAR,
+  MAX_RELEASE_YEAR,
+  type MovieFormData,
+} from '../../../utils/validateMovie';
 
 interface Props {
   movie: Movie;
@@ -25,7 +21,7 @@ interface Props {
 
 export const MovieEditForm = ({ movie, onCancel, onSuccess }: Props) => {
   const [isSaving, setIsSaving] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<MovieFormData>({
     title: movie.title || '',
     description: movie.description || '',
     genre: movie.genre || '',
@@ -35,7 +31,7 @@ export const MovieEditForm = ({ movie, onCancel, onSuccess }: Props) => {
     posterUrl: movie.posterUrl || '',
   });
 
-  const [errorModal, setErrorModal] = useState({ isOpen: false, title: '', message: '' });
+  const { modal, showApiError, showError, closeModal } = useFeedbackModal();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -45,36 +41,18 @@ export const MovieEditForm = ({ movie, onCancel, onSuccess }: Props) => {
   const handleSaveEdit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.title.trim() || !formData.description.trim() || !formData.genre.trim() || !formData.director.trim() || !formData.releaseYear || formData.rating === '') {
-      setErrorModal({ isOpen: true, title: 'Campos Obrigatórios', message: 'Preencha todos os campos obrigatórios.' });
+    const validation = validateMovie(formData);
+    if (!validation.ok) {
+      showError(validation.error.title, validation.error.message);
       return;
     }
-
-    const parsedYear = Number(formData.releaseYear);
-    const parsedRating = Number(formData.rating);
-
-    if (isNaN(parsedRating) || parsedRating < 0 || parsedRating > 10) {
-      setErrorModal({ isOpen: true, title: 'Nota Inválida', message: 'A avaliação deve ser um número entre 0 e 10.' });
-      return;
-    }
-
-    const payload: MoviePayload = {
-      title: formData.title.trim(),
-      description: formData.description.trim(),
-      genre: formData.genre.trim(),
-      director: formData.director.trim(),
-      releaseYear: parsedYear,
-      rating: parsedRating,
-      posterUrl: formData.posterUrl.trim() || undefined,
-    };
 
     try {
       setIsSaving(true);
-      const updatedMovie = await movieService.update(movie.id, payload);
+      const updatedMovie = await movieService.update(movie.id, validation.payload);
       onSuccess(updatedMovie);
     } catch (err) {
-      const apiError = getFriendlyApiError(err);
-      setErrorModal({ isOpen: true, title: apiError.title, message: apiError.message });
+      showApiError(err);
     } finally {
       setIsSaving(false);
     }
@@ -125,7 +103,7 @@ export const MovieEditForm = ({ movie, onCancel, onSuccess }: Props) => {
 
               <div className="edit-field">
                 <label>Ano de Lançamento</label>
-                <input name="releaseYear" type="number" min="1888" max="2099" value={formData.releaseYear} onChange={handleInputChange} disabled={isSaving} />
+                <input name="releaseYear" type="number" min={MIN_RELEASE_YEAR} max={MAX_RELEASE_YEAR} value={formData.releaseYear} onChange={handleInputChange} disabled={isSaving} />
               </div>
 
               <div className="edit-field">
@@ -156,7 +134,7 @@ export const MovieEditForm = ({ movie, onCancel, onSuccess }: Props) => {
         </div>
       </div>
 
-      <Modal isOpen={errorModal.isOpen} variant="error" title={errorModal.title} message={errorModal.message} onClose={() => setErrorModal({ ...errorModal, isOpen: false })} />
+      <Modal {...modal} onClose={closeModal} />
     </>
   );
 };

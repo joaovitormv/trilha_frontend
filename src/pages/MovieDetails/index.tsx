@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { movieService } from '../../api/services/movieService';
-import type { Movie } from '../../api/types/movie.types';
-import { getFriendlyApiError } from '../../api/utils/errorHandler';
-import { Modal, type ModalVariant } from '../../components/Modal';
+import { Modal } from '../../components/Modal';
 import { Skeleton } from '../../components/Skeleton';
+import { useFeedbackModal } from '../../hooks/useFeedbackModal';
+import { useMovie } from '../../hooks/useMovie';
 import { MovieReadView } from './components/movieReadView';
 import { MovieEditForm } from './components/movieEditForm';
 import './styles.css';
@@ -14,75 +14,26 @@ export const MovieDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const [movie, setMovie] = useState<Movie | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { movie, isLoading, error: loadError, setMovie } = useMovie(id);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState<boolean>(false);
-
-  const [feedbackModal, setFeedbackModal] = useState<{
-    isOpen: boolean;
-    variant: ModalVariant;
-    title: string;
-    message: string;
-    redirectOnClose?: boolean;
-  }>({
-    isOpen: false,
-    variant: 'error',
-    title: '',
-    message: '',
-  });
-
-  const loadMovie = useCallback(async () => {
-    if (!id) return;
-    try {
-      setIsLoading(true);
-      const data = await movieService.getById(Number(id));
-      setMovie(data);
-    } catch (err) {
-      const apiError = getFriendlyApiError(err);
-      setFeedbackModal({
-        isOpen: true,
-        variant: 'error',
-        title: apiError.title,
-        message: apiError.message,
-        redirectOnClose: true,
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  }, [id]);
-
-  useEffect(() => {
-    loadMovie();
-  }, [loadMovie]);
+  const { modal, showSuccess, showApiError, closeModal } = useFeedbackModal();
 
   const handleDeleteMovie = async () => {
     if (!movie) return;
     setIsDeleteConfirmOpen(false);
     try {
       await movieService.remove(movie.id);
-      setFeedbackModal({
-        isOpen: true,
-        variant: 'success',
-        title: 'Filme Excluído',
-        message: 'O filme foi removido do catálogo com sucesso.',
-        redirectOnClose: true,
-      });
+      showSuccess('Filme Excluído', 'O filme foi removido do catálogo com sucesso.');
     } catch (err) {
-      const apiError = getFriendlyApiError(err);
-      setFeedbackModal({
-        isOpen: true,
-        variant: 'error',
-        title: apiError.title,
-        message: apiError.message,
-      });
+      showApiError(err);
     }
   };
 
+  // Depois de excluir com sucesso, volta para o catálogo
   const handleCloseFeedbackModal = () => {
-    const shouldRedirect = feedbackModal.redirectOnClose;
-    setFeedbackModal((prev) => ({ ...prev, isOpen: false }));
-    if (shouldRedirect) navigate('/filmes');
+    closeModal();
+    if (modal.variant === 'success') navigate('/filmes');
   };
 
   return (
@@ -140,12 +91,15 @@ export const MovieDetails = () => {
         onClose={() => setIsDeleteConfirmOpen(false)}
       />
 
+      <Modal {...modal} onClose={handleCloseFeedbackModal} />
+
+      {/* Falha ao carregar o filme: ao fechar, volta para o catálogo */}
       <Modal
-        isOpen={feedbackModal.isOpen}
-        variant={feedbackModal.variant}
-        title={feedbackModal.title}
-        message={feedbackModal.message}
-        onClose={handleCloseFeedbackModal}
+        isOpen={Boolean(loadError)}
+        variant="error"
+        title={loadError?.title ?? ''}
+        message={loadError?.message ?? ''}
+        onClose={() => navigate('/filmes')}
       />
     </main>
   );
