@@ -32,28 +32,12 @@
   text-underline-offset: 4px;
 }
 
-/* Lado Direito: Redes Sociais e Texto */
+/* Lado Direito: Copyright */
 .footer-social-section {
   display: flex;
   flex-direction: column;
   align-items: flex-end; /* Mantém tudo alinhado à direita */
   gap: 6px; /* Reduzido o espaço entre os ícones e o texto para afinar o footer */
-}
-
-.social-icons {
-  display: flex;
-  gap: 16px;
-}
-
-.social-icons img {
-  width: 20px; /* Ícones um pouco menores */
-  height: 20px;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.social-icons img:hover {
-  opacity: 0.7;
 }
 
 .copyright-text {
@@ -63,12 +47,27 @@
 }
 
 /* Responsividade para celular */
+@media (max-width: 1024px) {
+  .app-footer {
+    padding: 15px 24px;
+  }
+}
+
 @media (max-width: 768px) {
+  .app-footer {
+    padding: 20px 16px;
+  }
   .footer-content {
     flex-direction: column;
-    gap: 15px;
+    gap: 16px;
+  }
+  .footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 20px;
   }
   .footer-social-section {
     align-items: center;
+    text-align: center;
   }
 }

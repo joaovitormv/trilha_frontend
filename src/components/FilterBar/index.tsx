@@ -1,5 +1,5 @@
-import React from 'react';
-import { Search, X, RotateCcw } from 'lucide-react';
+import { useState } from 'react';
+import { Search, X, RotateCcw, SlidersHorizontal } from 'lucide-react';
 import type { MovieSortBy, SortOrder } from '../../api/services/movieService';
 import './styles.css';
 
@@ -55,6 +55,7 @@ interface FilterBarProps {
 }
 
 export const FilterBar = ({ filters, onFilterChange, onReset }: FilterBarProps) => {
+  const [showMore, setShowMore] = useState(false);
   const updateField = <K extends keyof FilterState>(key: K, value: FilterState[K]) => {
     onFilterChange({ ...filters, [key]: value });
   };
@@ -130,7 +131,19 @@ export const FilterBar = ({ filters, onFilterChange, onReset }: FilterBarProps) 
         })}
       </div>
 
-      <div className="secondary-filters-row">
+      {/* Só aparece no celular/tablet vertical: recolhe os filtros secundários */}
+      <button
+        type="button"
+        className="more-filters-toggle"
+        aria-expanded={showMore}
+        onClick={() => setShowMore((open) => !open)}
+      >
+        <SlidersHorizontal size={16} />
+        {showMore ? 'Menos filtros' : 'Mais filtros'}
+        {hasActiveFilters && <span className="filters-active-dot" aria-label="Há filtros ativos" />}
+      </button>
+
+      <div className={`secondary-filters-row ${showMore ? 'open' : ''}`}>
         <div className="compact-control">
           <label htmlFor="filter-director">Diretor</label>
           <input

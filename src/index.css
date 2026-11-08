@@ -4,9 +4,43 @@
   box-sizing: border-box;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 html, body, #root {
   width: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
   background-color: #000000;
   font-family: sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+img, video {
+  max-width: 100%;
+}
+
+/* Evita o zoom automático do iOS ao focar em campos de formulário */
+@media (max-width: 768px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Alvos de toque confortáveis em telas touch */
+@media (hover: none) and (pointer: coarse) {
+  button, .page-button, .page-nav-button, .genre-pill {
+    min-height: 40px;
+  }
+}
+
+/* Campos de formulário nunca podem ser maiores que o container */
+input, select, textarea {
+  max-width: 100%;
+  min-width: 0;
 }

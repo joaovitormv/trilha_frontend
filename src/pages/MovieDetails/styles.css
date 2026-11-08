@@ -43,7 +43,7 @@
 
 .details-card {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 320px minmax(0, 1fr);
   gap: 40px;
   background-color: #0d0d0d;
   border: 1px solid #1f1f1f;
@@ -288,7 +288,7 @@
 
 .edit-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -355,7 +355,7 @@
 /* --- RESPONSIVIDADE --- */
 @media (max-width: 820px) {
   .details-card {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     padding: 24px;
   }
 
@@ -365,7 +365,7 @@
   }
 
   .edit-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .details-actions-bar {
@@ -379,5 +379,114 @@
 
   .crud-buttons-group .action-btn {
     flex: 1;
+  }
+}
+
+/* --- TABLET (821px a 1024px) --- */
+@media (min-width: 821px) and (max-width: 1024px) {
+  .details-card {
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 28px;
+    padding: 28px;
+  }
+  .details-title {
+    font-size: 1.9rem;
+  }
+}
+
+/* --- CELULAR / TABLET VERTICAL (ajustes adicionais) --- */
+@media (max-width: 820px) {
+  .movie-details-page {
+    padding: 20px 16px 48px;
+  }
+  .details-card {
+    gap: 24px;
+  }
+  .details-title {
+    font-size: 1.6rem;
+    overflow-wrap: anywhere;
+  }
+  .details-description-box p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .details-card {
+    padding: 18px 16px;
+    border-radius: 16px;
+  }
+  .details-poster-column {
+    max-width: 220px;
+  }
+  .crud-buttons-group {
+    flex-direction: column;
+  }
+  .edit-form-actions {
+    flex-direction: column-reverse;
+  }
+  .edit-form-actions .action-btn {
+    width: 100%;
+  }
+  .details-timestamps {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* --- PROTEÇÃO CONTRA ESTOURO DE LARGURA --- */
+.details-card > *,
+.details-info-column > *,
+.details-header-group > *,
+.edit-grid > *,
+.edit-field {
+  min-width: 0;
+}
+.details-title,
+.details-description-box p,
+.meta-pill {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.meta-pill {
+  max-width: 100%;
+}
+.edit-field input,
+.edit-field select,
+.edit-field textarea {
+  width: 100%;
+}
+
+/* --- DESIGN MOBILE: pôster compacto + título centralizado --- */
+@media (max-width: 820px) {
+  .details-poster-column {
+    max-width: 220px;
+  }
+  .title-and-rating {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .details-header-group {
+    align-items: center;
+  }
+  .details-meta-pills {
+    justify-content: center;
+  }
+  .details-description-box {
+    padding: 16px;
+  }
+  .details-timestamps {
+    justify-content: center;
+  }
+  .edit-form-header h2 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Em modo de edição no celular, o pôster fica pequeno para o formulário aparecer logo */
+@media (max-width: 820px) {
+  .details-card:has(.details-edit-form) .details-poster-column {
+    max-width: 130px;
   }
 }

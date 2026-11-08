@@ -175,7 +175,7 @@
 
 .profile-fields-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20px;
 }
 
@@ -379,7 +379,7 @@
   }
 
   .profile-fields-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .profile-edit-actions {
@@ -390,4 +390,59 @@
   .cancel-profile-btn {
     justify-content: center;
   }
+}
+
+/* --- TABLET / CELULAR (ajustes adicionais) --- */
+@media (max-width: 768px) {
+  .profile-page {
+    padding: 20px 16px 48px;
+  }
+  .profile-page-title {
+    font-size: 1.6rem;
+  }
+  .profile-banner-left {
+    min-width: 0;
+  }
+  .profile-identity {
+    min-width: 0;
+  }
+  .profile-identity h2,
+  .profile-identity p {
+    overflow-wrap: anywhere;
+  }
+  .danger-zone-card {
+    padding: 20px;
+  }
+  .danger-zone-info {
+    min-width: 0;
+  }
+  .delete-account-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-avatar {
+    width: 64px;
+    height: 64px;
+    font-size: 1.5rem;
+  }
+  .profile-banner-left {
+    gap: 14px;
+  }
+  .profile-identity h2 {
+    font-size: 1.2rem;
+  }
+  .profile-edit-actions button {
+    width: 100% !important;
+  }
+}
+
+/* --- PROTEÇÃO CONTRA ESTOURO DE LARGURA --- */
+.profile-fields-grid > *,
+.profile-field,
+.profile-banner-left,
+.profile-identity {
+  min-width: 0;
 }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Menu, X } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Modal } from '../Modal';
 import './styles.css';
@@ -9,6 +10,8 @@ export const Header = () => {
   const navigate = useNavigate();
   
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const closeMenu = () => setIsMenuOpen(false);
   const isAuthenticated = Boolean(localStorage.getItem('@CineComp:token'));
 
   const handleLogout = () => {
@@ -21,12 +24,22 @@ export const Header = () => {
   return (
     <>
       <header className="app-header">
-        <Link to="/" className="logo-container">
+        <Link to="/" className="logo-container" onClick={closeMenu}>
           <img src={logoImg} alt="Logo CineComp" className="header-logo-img" />
           <span className="logo-text">CineComp</span>
         </Link>
         
-        <nav className="nav-links">
+        <button
+          type="button"
+          className="menu-toggle"
+          aria-label={isMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+          aria-expanded={isMenuOpen}
+          onClick={() => setIsMenuOpen((open) => !open)}
+        >
+          {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
+        </button>
+
+        <nav className={`nav-links ${isMenuOpen ? 'open' : ''}`} onClick={closeMenu}>
           {isAuthenticated ? (
             <>
               <Link to="/">Início</Link>

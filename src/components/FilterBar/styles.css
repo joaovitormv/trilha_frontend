@@ -172,15 +172,104 @@
   color: #ff4d4d;
 }
 
+@media (max-width: 1024px) {
+  .filter-section {
+    padding: 20px 24px;
+  }
+}
+
 @media (max-width: 768px) {
   .filter-section {
-    padding: 18px 16px;
+    padding: 16px;
+    gap: 16px;
+  }
+  .search-bar-wrapper {
+    max-width: 100%;
+  }
+  /* Pílulas de gênero: rolagem horizontal em vez de ocupar a tela toda */
+  .genre-pills-row {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .genre-pill {
+    flex-shrink: 0;
+    white-space: nowrap;
   }
   .secondary-filters-row {
     flex-direction: column;
     align-items: stretch;
   }
+  .compact-control input,
+  .compact-control select {
+    width: 100%;
+    height: 44px;
+  }
   .compact-year input {
     width: 100%;
+  }
+  .reset-filters-btn {
+    height: 44px;
+    justify-content: center;
+  }
+}
+
+/* --- BOTÃO "MAIS FILTROS" (oculto no desktop) --- */
+.more-filters-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid #3a3a3a;
+  border-radius: 10px;
+  color: #cccccc;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.more-filters-toggle:hover {
+  border-color: #6a0dad;
+  color: #ffffff;
+}
+
+.filters-active-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #8a2be2;
+}
+
+@media (max-width: 768px) {
+  .more-filters-toggle {
+    display: inline-flex;
+  }
+  /* filtros secundários recolhidos por padrão */
+  .secondary-filters-row:not(.open) {
+    display: none;
+  }
+  .secondary-filters-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: end;
+    gap: 12px;
+    border-top: none;
+    padding-top: 0;
+  }
+  .secondary-filters-row .reset-filters-btn {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .secondary-filters-row {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

@@ -46,7 +46,6 @@
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 16px;
-  max-height: 240px;
 }
 
 .no-poster {
@@ -134,4 +133,67 @@
   font-weight: 800;
   color: #ffffff;
   margin: 0; /* Remove margens internas que possam empurrar o botão */
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 1024px) {
+  .catalog-main-content {
+    padding: 32px 24px;
+  }
+  .movies-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .catalog-main-content {
+    padding: 24px 16px;
+  }
+  .catalog-title {
+    font-size: 1.6rem;
+  }
+  .catalog-header-row {
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 20px;
+  }
+  /* o botão "Adicionar" recebe width inline no TSX, por isso o !important */
+  .catalog-header-row button {
+    width: 100% !important;
+  }
+  .movies-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .movie-card-simple {
+    padding: 10px;
+  }
+  .movie-poster,
+  .no-poster {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .movies-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
+
+/* --- PROTEÇÃO CONTRA ESTOURO DE LARGURA --- */
+.movie-card-simple {
+  min-width: 0;
+}
+.movie-poster,
+.no-poster {
+  display: block;
+  max-width: 100%;
+}
+.movie-year {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
 }

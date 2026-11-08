@@ -96,6 +96,20 @@
   background-color: #b71c1c;
 }
 
+@media (max-width: 480px) {
+  .modal-box {
+    padding: 24px 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-actions {
+    flex-direction: column-reverse;
+  }
+  .modal-btn {
+    width: 100%;
+  }
+}
+
 @keyframes modalFadeIn {
   from {
     opacity: 0;

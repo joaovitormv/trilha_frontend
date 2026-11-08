@@ -155,7 +155,20 @@
     display: none;
   }
 
+  .auth-main-content {
+    min-height: auto;
+  }
+
   .auth-form-side {
     padding: 36px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-title {
+    font-size: 1.7rem;
+  }
+  .auth-content-wrapper {
+    gap: 22px;
   }
 }

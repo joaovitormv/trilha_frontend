@@ -15,12 +15,6 @@ export const Footer = () => {
         </div>
 
         <div className="footer-social-section">
-          <div className="social-icons">
-            <img src="caminho_icone_facebook.png" alt="Facebook" />
-            <img src="caminho_icone_instagram.png" alt="Instagram" />
-            <img src="caminho_icone_twitter.png" alt="Twitter" />
-            <img src="caminho_icone_youtube.png" alt="YouTube" />
-          </div>
           <p className="copyright-text">
             © 2026 CINECOMP. Todos os direitos reservados.
           </p>

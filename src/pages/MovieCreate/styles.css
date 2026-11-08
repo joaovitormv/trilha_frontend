@@ -37,7 +37,7 @@
 
 .create-movie-layout {
   display: grid;
-  grid-template-columns: 1fr 290px;
+  grid-template-columns: minmax(0, 1fr) 290px;
   gap: 40px;
   align-items: stretch;
 }
@@ -51,7 +51,7 @@
 
 .form-row-two {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -102,7 +102,7 @@
 /* --- BOTÕES DE AÇÃO --- */
 .create-form-actions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
   margin-top: 8px;
 }
@@ -212,7 +212,7 @@
   }
 
   .create-movie-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .create-poster-column {
@@ -228,6 +228,89 @@
 
   .form-row-two,
   .create-form-actions {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* --- TABLET (861px a 1024px) --- */
+@media (min-width: 861px) and (max-width: 1024px) {
+  .create-movie-card {
+    padding: 28px 28px;
+  }
+  .create-movie-layout {
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 28px;
+  }
+}
+
+/* --- CELULAR / TABLET VERTICAL (ajustes adicionais) --- */
+@media (max-width: 860px) {
+  .create-movie-page {
+    padding: 20px 16px 48px;
+  }
+  .create-movie-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  .poster-preview-box {
+    min-height: 0;
+    aspect-ratio: 2 / 3;
+  }
+}
+
+@media (max-width: 480px) {
+  .create-movie-card {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+  .create-poster-column {
+    max-width: 200px;
+  }
+}
+
+/* --- PROTEÇÃO CONTRA ESTOURO DE LARGURA --- */
+.create-movie-layout > *,
+.create-form-column,
+.form-row-two > *,
+.form-field {
+  min-width: 0;
+}
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+}
+.poster-preview-img {
+  display: block;
+  max-width: 100%;
+}
+
+/* --- DESIGN MOBILE: pôster vira uma prévia compacta no topo --- */
+@media (max-width: 860px) {
+  .create-poster-column {
+    max-width: 180px;
+  }
+  .poster-preview-box {
+    padding: 12px;
+  }
+  .poster-placeholder-hint,
+  .poster-format-badges {
+    display: none;
+  }
+  .create-form-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* "Salvar" em cima, "Cancelar" embaixo */
+  .create-form-actions .cancel-create-btn {
+    order: 2;
+  }
+}
+
+@media (max-width: 860px) {
+  .create-poster-column {
+    max-width: 130px;
+  }
+  .poster-placeholder-title {
+    font-size: 0.75rem;
   }
 }
