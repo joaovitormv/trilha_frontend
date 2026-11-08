@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import { authService } from '../../api/services/authService';
 import { getFriendlyApiError, type FriendlyError } from '../../api/utils/errorHandler';
+import { AuthLayout } from '../../components/AuthLayout';
 import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
-import './styles.css';
+import loginBg from '../../assets/loginImg.jpeg'; 
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -22,7 +23,7 @@ export const Login = () => {
     if (!email.trim() || !password) {
       setApiError({
         title: 'Campos Obrigatórios',
-        message: 'Por favor, preencha o seu e-mail e a sua senha para continuar.'
+        message: 'Por favor, preencha o seu e-mail e a sua senha para continuar.',
       });
       return;
     }
@@ -44,59 +45,56 @@ export const Login = () => {
   };
 
   return (
-    <main className="auth-main-content">
-      <div className="auth-split-card">
-        <div className="auth-form-side">
-          <div className="auth-content-wrapper">
-            <div className="auth-titles">
-              <p className="welcome-back">Bem-vindo de volta!</p>
-              <h1 className="main-title">Faça o login novamente</h1>
-            </div>
-
-            <form onSubmit={handleLogin} className="auth-form">
-              <div className="input-group">
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  placeholder="Entre com endereço de email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={isLoading}
-                />
-              </div>
-
-              <div className="input-group">
-                <label htmlFor="password">Senha</label>
-                <div className="password-input-wrapper">
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    id="password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    disabled={isLoading}
-                  />
-                  <button
-                    type="button"
-                    className="eye-icon-btn"
-                    onClick={() => setShowPassword(!showPassword)}
-                    tabIndex={-1}
-                  >
-                    {showPassword ? <EyeOff size={20} color="#666" /> : <Eye size={20} color="#666" />}
-                  </button>
-                </div>
-              </div>
-
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? 'Entrando...' : 'Entrar'}
-              </Button>
-            </form>
+    <>
+      <AuthLayout
+        subtitle="Bem-vindo de volta!"
+        title="Faça o login novamente"
+        imageSrc={loginBg}
+      >
+        <form onSubmit={handleLogin} className="auth-form">
+          <div className="input-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Entre com o endereço de email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={isLoading}
+            />
           </div>
-        </div>
 
-        <div className="auth-image-side"></div>
-      </div>
+          <div className="input-group">
+            <label htmlFor="password">Senha</label>
+            <div className="password-input-wrapper">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={isLoading}
+              />
+              <button
+                type="button"
+                className="eye-icon-btn"
+                onClick={() => setShowPassword(!showPassword)}
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff size={20} color="#666" /> : <Eye size={20} color="#666" />}
+              </button>
+            </div>
+          </div>
+
+          <Button type="submit" isLoading={isLoading}>
+            {isLoading ? 'Entrando...' : 'Entrar'}
+          </Button>
+
+          <p className="auth-redirect-text">
+            Ainda não tem uma conta? <Link to="/cadastro">Cadastre-se</Link>
+          </p>
+        </form>
+      </AuthLayout>
 
       <Modal
         isOpen={Boolean(apiError)}
@@ -105,6 +103,6 @@ export const Login = () => {
         message={apiError?.message || ''}
         onClose={() => setApiError(null)}
       />
-    </main>
+    </>
   );
 };

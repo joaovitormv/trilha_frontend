@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Modal } from '../Modal';
 import './styles.css';
+import logoImg from '../../assets/logo.png';
 
 export const Header = () => {
   useLocation();
@@ -21,7 +22,7 @@ export const Header = () => {
     <>
       <header className="app-header">
         <Link to="/" className="logo-container">
-          <img src="/CINECOMP.png" alt="CineComp Logo" className="logo-icon" />
+          <img src={logoImg} alt="Logo CineComp" className="header-logo-img" />
           <span className="logo-text">CineComp</span>
         </Link>
         

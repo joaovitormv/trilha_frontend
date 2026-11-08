@@ -1,8 +1,13 @@
-
 export interface User {
   id: number;
   name: string;
   email: string;
-  // A senha nunca deve trafegar nas interfaces do frontend por segurança
+  createdAt?: string;
+  updatedAt?: string;
 }
 
+export interface UpdateProfilePayload {
+  name: string;
+  email: string;
+  password?: string;
+}
