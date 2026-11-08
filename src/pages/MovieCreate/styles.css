@@ -21,8 +21,8 @@
 }
 
 .create-movie-card {
-  background-color: #0d0d0d;
-  border: 1px solid #1f1f1f;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
   border-radius: 20px;
   padding: 36px 40px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
@@ -31,7 +31,7 @@
 .create-movie-title {
   font-size: 1.9rem;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--color-text);
   margin: 0 0 28px 0;
 }
 
@@ -64,17 +64,17 @@
 .form-field label {
   font-size: 0.88rem;
   font-weight: 600;
-  color: #cccccc;
+  color: var(--color-text-muted);
 }
 
 .form-field input,
 .form-field select,
 .form-field textarea {
-  background-color: #161616;
-  border: 1px solid #2b2b2b;
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
   border-radius: 10px;
   padding: 12px 14px;
-  color: #ffffff;
+  color: var(--color-text);
   font-size: 0.95rem;
   font-family: inherit;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -90,7 +90,7 @@
 .form-field select:focus,
 .form-field textarea:focus {
   outline: none;
-  border-color: #6a0dad;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.18);
 }
 
@@ -109,8 +109,8 @@
 
 .cancel-create-btn {
   background-color: transparent;
-  border: 1px solid #3a3a3a;
-  color: #e0e0e0;
+  border: 1px solid var(--color-border-input);
+  color: var(--color-text-soft);
   border-radius: 8px;
   padding: 12px 20px;
   font-size: 1rem;
@@ -120,9 +120,9 @@
 }
 
 .cancel-create-btn:hover {
-  background-color: #1f1f1f;
+  background-color: var(--color-surface-high);
   border-color: #555555;
-  color: #ffffff;
+  color: var(--color-text);
 }
 
 .submit-btn-inner {
@@ -155,7 +155,7 @@
 }
 
 .poster-preview-box:hover {
-  border-color: #6a0dad;
+  border-color: var(--color-primary);
 }
 
 .poster-preview-img {
@@ -179,12 +179,12 @@
   font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.8px;
-  color: #e0e0e0;
+  color: var(--color-text-soft);
 }
 
 .poster-placeholder-hint {
   font-size: 0.84rem;
-  color: #777777;
+  color: var(--color-text-faint);
   line-height: 1.5;
   margin: 0;
 }
@@ -198,74 +198,11 @@
 .poster-format-badges span {
   background-color: #1c1c1c;
   border: 1px solid #2e2e2e;
-  color: #888888;
+  color: var(--color-text-subtle);
   font-size: 0.72rem;
   font-weight: 700;
   padding: 4px 10px;
   border-radius: 6px;
-}
-
-/* --- RESPONSIVIDADE --- */
-@media (max-width: 860px) {
-  .create-movie-card {
-    padding: 24px 20px;
-  }
-
-  .create-movie-layout {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .create-poster-column {
-    order: -1;
-    max-width: 260px;
-    margin: 0 auto;
-    width: 100%;
-  }
-
-  .poster-preview-box {
-    min-height: 340px;
-  }
-
-  .form-row-two,
-  .create-form-actions {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-/* --- TABLET (861px a 1024px) --- */
-@media (min-width: 861px) and (max-width: 1024px) {
-  .create-movie-card {
-    padding: 28px 28px;
-  }
-  .create-movie-layout {
-    grid-template-columns: minmax(0, 1fr) 240px;
-    gap: 28px;
-  }
-}
-
-/* --- CELULAR / TABLET VERTICAL (ajustes adicionais) --- */
-@media (max-width: 860px) {
-  .create-movie-page {
-    padding: 20px 16px 48px;
-  }
-  .create-movie-title {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-  }
-  .poster-preview-box {
-    min-height: 0;
-    aspect-ratio: 2 / 3;
-  }
-}
-
-@media (max-width: 480px) {
-  .create-movie-card {
-    padding: 20px 16px;
-    border-radius: 16px;
-  }
-  .create-poster-column {
-    max-width: 200px;
-  }
 }
 
 /* --- PROTEÇÃO CONTRA ESTOURO DE LARGURA --- */
@@ -286,17 +223,55 @@
 }
 
 /* --- DESIGN MOBILE: pôster vira uma prévia compacta no topo --- */
-@media (max-width: 860px) {
+
+/* --- RESPONSIVIDADE (breakpoints padrão em index.css) --- */
+@media (768px < width <= 1024px) {
+  .create-movie-card {
+    padding: 28px 28px;
+  }
+  .create-movie-layout {
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 28px;
+  }
+}
+
+@media (width <= 768px) {
+  .create-movie-page {
+    padding: 20px 16px 48px;
+  }
+  .create-movie-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  .create-movie-card {
+    padding: 24px 20px;
+  }
+
+  .create-movie-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* pôster vira uma prévia compacta no topo */
   .create-poster-column {
-    max-width: 180px;
+    order: -1;
+    max-width: 130px;
+    margin: 0 auto;
+    width: 100%;
   }
   .poster-preview-box {
+    min-height: 0;
+    aspect-ratio: 2 / 3;
     padding: 12px;
+  }
+  .poster-placeholder-title {
+    font-size: 0.75rem;
   }
   .poster-placeholder-hint,
   .poster-format-badges {
     display: none;
   }
+
+  .form-row-two,
   .create-form-actions {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -306,11 +281,9 @@
   }
 }
 
-@media (max-width: 860px) {
-  .create-poster-column {
-    max-width: 130px;
-  }
-  .poster-placeholder-title {
-    font-size: 0.75rem;
+@media (width <= 480px) {
+  .create-movie-card {
+    padding: 20px 16px;
+    border-radius: 16px;
   }
 }

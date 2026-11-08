@@ -1,5 +1,5 @@
 .custom-btn {
-  background-color: #6a0dad; /* Roxo */
+  background-color: var(--color-primary); /* Roxo */
   color: white;
   border: none;
   padding: 10px 24px;
@@ -10,7 +10,7 @@
   transition: background-color 0.2s;
 }
 .custom-btn:hover {
-  background-color: #8a2be2;
+  background-color: var(--color-primary-hover);
 }
 
 .btn-loading-content {

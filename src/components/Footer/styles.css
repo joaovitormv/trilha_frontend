@@ -1,5 +1,5 @@
 .app-footer {
-  background-color: #6a0dad;
+  background-color: var(--color-primary);
   padding: 15px 40px; /* Reduzido a altura do footer (de 30px para 15px) */
   width: 100%;
   box-sizing: border-box;
@@ -21,7 +21,7 @@
 }
 
 .footer-links a {
-  color: #ffffff;
+  color: var(--color-text);
   text-decoration: none;
   font-size: 0.9rem;
   transition: opacity 0.2s;
@@ -42,18 +42,18 @@
 
 .copyright-text {
   font-size: 0.75rem;
-  color: #e0e0e0;
+  color: var(--color-text-soft);
   margin: 0;
 }
 
 /* Responsividade para celular */
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .app-footer {
     padding: 15px 24px;
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .app-footer {
     padding: 20px 16px;
   }

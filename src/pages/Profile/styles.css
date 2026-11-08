@@ -21,27 +21,6 @@
   align-items: center;
 }
 
-.home-nav-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background-color: #141414;
-  border: 1px solid #2b2b2b;
-  color: #e0e0e0;
-  padding: 10px 16px;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.home-nav-btn:hover {
-  border-color: #6a0dad;
-  color: #ffffff;
-  transform: translateX(-2px);
-}
-
 .profile-title-row {
   display: flex;
   flex-direction: column;
@@ -51,20 +30,20 @@
 .profile-page-title {
   font-size: 2rem;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--color-text);
   margin: 0;
 }
 
 .profile-page-subtitle {
   font-size: 0.95rem;
-  color: #888888;
+  color: var(--color-text-subtle);
   margin: 0;
 }
 
 /* --- CARTÃO PRINCIPAL --- */
 .profile-card {
-  background-color: #0d0d0d;
-  border: 1px solid #1f1f1f;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
   border-radius: 20px;
   padding: 36px;
   display: flex;
@@ -93,7 +72,7 @@
   align-items: center;
   gap: 20px;
   padding-bottom: 24px;
-  border-bottom: 1px solid #1f1f1f;
+  border-bottom: 1px solid var(--color-border-subtle);
   flex-wrap: wrap;
 }
 
@@ -108,13 +87,13 @@
   height: 78px;
   border-radius: 50%;
   background: linear-gradient(135deg, #6a0dad, #3c0663);
-  border: 2px solid #8a2be2;
+  border: 2px solid var(--color-primary-hover);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.75rem;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--color-text);
   flex-shrink: 0;
 }
 
@@ -128,7 +107,7 @@
   margin: 0;
   font-size: 1.45rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--color-text);
 }
 
 .profile-identity p {
@@ -143,16 +122,16 @@
   gap: 6px;
   margin-top: 4px;
   font-size: 0.8rem;
-  color: #777777;
+  color: var(--color-text-faint);
 }
 
 .enable-edit-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background-color: #181818;
-  border: 1px solid #333333;
-  color: #ffffff;
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text);
   padding: 10px 18px;
   border-radius: 10px;
   font-size: 0.9rem;
@@ -162,8 +141,8 @@
 }
 
 .enable-edit-btn:hover {
-  background-color: #6a0dad;
-  border-color: #6a0dad;
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 /* --- FORMULÁRIO E CAMPOS --- */
@@ -197,7 +176,7 @@
 
 .optional-tag {
   font-weight: 400;
-  color: #777777;
+  color: var(--color-text-faint);
   font-size: 0.8rem;
 }
 
@@ -210,17 +189,17 @@
 .field-left-icon {
   position: absolute;
   left: 14px;
-  color: #777777;
+  color: var(--color-text-faint);
   pointer-events: none;
 }
 
 .profile-input-wrapper input {
   width: 100%;
-  background-color: #161616;
-  border: 1px solid #3a3a3a;
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border-input);
   border-radius: 10px;
   padding: 13px 42px;
-  color: #ffffff;
+  color: var(--color-text);
   font-size: 0.95rem;
   font-family: inherit;
   transition: all 0.2s ease;
@@ -230,14 +209,14 @@
 /* Estilo limpo quando não está editando */
 .profile-input-wrapper.read-only input {
   background-color: #111111;
-  border-color: #1f1f1f;
-  color: #cccccc;
+  border-color: var(--color-border-subtle);
+  color: var(--color-text-muted);
   cursor: default;
 }
 
 .profile-input-wrapper input:focus {
   outline: none;
-  border-color: #6a0dad;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.2);
 }
 
@@ -246,7 +225,7 @@
   right: 12px;
   background: none;
   border: none;
-  color: #777777;
+  color: var(--color-text-faint);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -255,7 +234,7 @@
 }
 
 .profile-eye-btn:hover {
-  color: #ffffff;
+  color: var(--color-text);
 }
 
 /* --- BOTÕES DE SALVAR / CANCELAR --- */
@@ -265,7 +244,7 @@
   align-items: center;
   gap: 12px;
   padding-top: 16px;
-  border-top: 1px solid #1f1f1f;
+  border-top: 1px solid var(--color-border-subtle);
 }
 
 .cancel-profile-btn {
@@ -273,8 +252,8 @@
   align-items: center;
   gap: 6px;
   background-color: transparent;
-  border: 1px solid #3a3a3a;
-  color: #cccccc;
+  border: 1px solid var(--color-border-input);
+  color: var(--color-text-muted);
   padding: 11px 20px;
   border-radius: 8px;
   font-size: 0.95rem;
@@ -284,8 +263,8 @@
 }
 
 .cancel-profile-btn:hover {
-  background-color: #1f1f1f;
-  color: #ffffff;
+  background-color: var(--color-surface-high);
+  color: var(--color-text);
 }
 
 .profile-save-content {
@@ -295,75 +274,16 @@
   gap: 8px;
 }
 
-/* --- ZONA DE PERIGO --- */
-.danger-zone-card {
-  background-color: rgba(211, 47, 47, 0.05);
-  border: 1px solid rgba(211, 47, 47, 0.28);
-  border-radius: 16px;
-  padding: 24px 32px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 24px;
-  flex-wrap: wrap;
+/* --- PROTEÇÃO CONTRA ESTOURO DE LARGURA --- */
+.profile-fields-grid > *,
+.profile-field,
+.profile-banner-left,
+.profile-identity {
+  min-width: 0;
 }
 
-.danger-zone-info {
-  flex: 1;
-  min-width: 260px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.danger-zone-header {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.danger-zone-header h3 {
-  margin: 0;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #ff4d4d;
-}
-
-.danger-zone-info p {
-  margin: 0;
-  font-size: 0.88rem;
-  color: #aaaaaa;
-  line-height: 1.5;
-}
-
-.delete-account-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background-color: transparent;
-  border: 1px solid #d32f2f;
-  color: #ff4d4d;
-  padding: 11px 20px;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.delete-account-btn:hover {
-  background-color: #d32f2f;
-  color: #ffffff;
-}
-
-.delete-account-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* --- RESPONSIVIDADE --- */
-@media (max-width: 680px) {
+/* --- RESPONSIVIDADE (breakpoints padrão em index.css) --- */
+@media (width <= 768px) {
   .profile-card {
     padding: 24px 20px;
   }
@@ -390,10 +310,7 @@
   .cancel-profile-btn {
     justify-content: center;
   }
-}
 
-/* --- TABLET / CELULAR (ajustes adicionais) --- */
-@media (max-width: 768px) {
   .profile-page {
     padding: 20px 16px 48px;
   }
@@ -410,19 +327,9 @@
   .profile-identity p {
     overflow-wrap: anywhere;
   }
-  .danger-zone-card {
-    padding: 20px;
-  }
-  .danger-zone-info {
-    min-width: 0;
-  }
-  .delete-account-btn {
-    width: 100%;
-    justify-content: center;
-  }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .profile-avatar {
     width: 64px;
     height: 64px;
@@ -437,12 +344,4 @@
   .profile-edit-actions button {
     width: 100% !important;
   }
-}
-
-/* --- PROTEÇÃO CONTRA ESTOURO DE LARGURA --- */
-.profile-fields-grid > *,
-.profile-field,
-.profile-banner-left,
-.profile-identity {
-  min-width: 0;
 }

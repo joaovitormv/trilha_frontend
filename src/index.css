@@ -1,3 +1,47 @@
+:root {
+  /* Marca */
+  --color-primary: #6a0dad;
+  --color-primary-hover: #8a2be2;
+
+  /* Fundos */
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-surface: #0d0d0d;
+  --color-surface-alt: #161616;
+  --color-surface-muted: #181818;
+  --color-surface-raised: #1a1a1a;
+  --color-surface-high: #1f1f1f;
+  --color-surface-hover: #333333;
+
+  /* Bordas */
+  --color-border-subtle: #1f1f1f;
+  --color-border: #2b2b2b;
+  --color-border-strong: #333333;
+  --color-border-input: #3a3a3a;
+
+  /* Texto */
+  --color-text: #ffffff;
+  --color-text-soft: #e0e0e0;
+  --color-text-muted: #cccccc;
+  --color-text-subtle: #888888;
+  --color-text-faint: #777777;
+
+  /* Estados */
+  --color-danger: #ff4d4d;
+  --color-danger-strong: #d32f2f;
+  --color-favorite: #ff4d6d;
+
+  /*
+   * Breakpoints (media queries não aceitam var(), então ficam documentados aqui).
+   * Mobile: width <= 480px | Tablet: width <= 768px | Desktop pequeno: width <= 1024px.
+   * Sempre em sintaxe de range, assim não sobra "buraco" entre as faixas:
+   *   (width <= 1024px)                 até desktop pequeno
+   *   (768px < width <= 1024px)         só a faixa de tablet horizontal
+   *   (width <= 768px)                  tablet vertical e menores
+   *   (width <= 480px)                  celulares
+   */
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -13,7 +57,7 @@ html, body, #root {
   width: 100%;
   min-height: 100vh;
   min-height: 100dvh;
-  background-color: #000000;
+  background-color: var(--color-black);
   font-family: sans-serif;
 }
 
@@ -26,7 +70,7 @@ img, video {
 }
 
 /* Evita o zoom automático do iOS ao focar em campos de formulário */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   input, select, textarea {
     font-size: 16px !important;
   }
@@ -43,4 +87,26 @@ img, video {
 input, select, textarea {
   max-width: 100%;
   min-width: 0;
+}
+
+/* Botão "voltar" compartilhado (detalhes, cadastro de filme, perfil) */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #141414;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-soft);
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-text);
+  transform: translateX(-2px);
 }

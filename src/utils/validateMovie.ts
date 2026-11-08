@@ -1,10 +1,10 @@
-import type { MoviePayload } from '../api/types/movie.types';
+import type { Movie, MoviePayload } from '../api/types/movie.types';
 import type { FriendlyError } from '../api/utils/errorHandler';
 
 export const MIN_RELEASE_YEAR = 1888;
 export const MAX_RELEASE_YEAR = 2100;
-const MIN_RATING = 0;
-const MAX_RATING = 10;
+export const MIN_RATING = 0;
+export const MAX_RATING = 10;
 
 // Estado dos formulários de filme (campos numéricos ficam como string enquanto o usuário digita)
 export interface MovieFormData {
@@ -16,6 +16,27 @@ export interface MovieFormData {
   rating: string;
   posterUrl: string;
 }
+
+export const EMPTY_MOVIE_FORM: MovieFormData = {
+  title: '',
+  description: '',
+  genre: '',
+  director: '',
+  releaseYear: '',
+  rating: '',
+  posterUrl: '',
+};
+
+// Converte um filme da API no estado do formulário (números viram string)
+export const movieToFormData = (movie: Movie): MovieFormData => ({
+  title: movie.title || '',
+  description: movie.description || '',
+  genre: movie.genre || '',
+  director: movie.director || '',
+  releaseYear: String(movie.releaseYear || ''),
+  rating: String(movie.rating ?? ''),
+  posterUrl: movie.posterUrl || '',
+});
 
 export type MovieValidationResult =
   | { ok: true; payload: MoviePayload }

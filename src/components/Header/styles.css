@@ -3,8 +3,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
-  background-color: #000000;
-  color: #ffffff;
+  background-color: var(--color-black);
+  color: var(--color-text);
 }
 
 .logo-container {
@@ -14,16 +14,10 @@
   text-decoration: none;
 }
 
-.logo-icon {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-}
-
 .logo-text {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #ffffff;
+  color: var(--color-text);
 }
 
 .nav-links {
@@ -34,7 +28,7 @@
 
 /* === CORREÇÃO DOS LINKS === */
 .nav-links a {
-  color: #ffffff;
+  color: var(--color-text);
   text-decoration: none; /* Remove o sublinhado */
   font-size: 1rem;
   font-weight: 600;
@@ -43,7 +37,7 @@
 }
 
 .nav-links a:hover {
-  color: #6a0dad;
+  color: var(--color-primary);
   text-shadow: 0 0 8px rgba(106, 13, 173, 0.6); /* Efeito de brilho/sombra roxa no hover */
 }
 
@@ -51,7 +45,7 @@
 .nav-logout-btn {
   background: none;
   border: none;
-  color: #ffffff;
+  color: var(--color-text);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -62,18 +56,8 @@
 }
 
 .nav-logout-btn:hover {
-  color: #ff4d4d; /* Cor avermelhada sutil para o hover de "Sair" */
+  color: var(--color-danger); /* Cor avermelhada sutil para o hover de "Sair" */
   text-shadow: 0 0 8px rgba(255, 77, 77, 0.6);
-}
-
-.header-logo-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  color: #ffffff;
-  font-size: 1.4rem;
-  font-weight: 800;
 }
 
 .header-logo-img {
@@ -87,18 +71,18 @@
   display: none;
   background: none;
   border: none;
-  color: #ffffff;
+  color: var(--color-text);
   cursor: pointer;
   padding: 6px;
   border-radius: 8px;
 }
 
 .menu-toggle:hover {
-  background-color: #1a1a1a;
+  background-color: var(--color-surface-raised);
 }
 
 /* --- TABLET --- */
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .app-header {
     padding: 16px 24px;
   }
@@ -108,7 +92,7 @@
 }
 
 /* --- CELULAR / TABLET VERTICAL: menu colapsável --- */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .app-header {
     position: relative;
     padding: 14px 16px;
@@ -134,9 +118,9 @@
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    background-color: #0d0d0d;
-    border-top: 1px solid #1f1f1f;
-    border-bottom: 1px solid #1f1f1f;
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border-subtle);
+    border-bottom: 1px solid var(--color-border-subtle);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.7);
   }
 
@@ -150,7 +134,7 @@
     width: 100%;
     text-align: left;
     padding: 16px 20px;
-    border-bottom: 1px solid #1a1a1a;
+    border-bottom: 1px solid var(--color-surface-raised);
     font-size: 1.05rem;
   }
 

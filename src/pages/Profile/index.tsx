@@ -142,7 +142,7 @@ export const Profile = () => {
         <div className="profile-top-bar">
           <button
             type="button"
-            className="home-nav-btn"
+            className="back-btn"
             onClick={() => navigate('/')}
           >
             <Home size={18} />
